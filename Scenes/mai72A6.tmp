@@ -1,0 +1,195 @@
+[gd_scene load_steps=10 format=3 uid="uid://c38ohjln32010"]
+
+[ext_resource type="Script" path="res://Scripts/CardManager.gd" id="1_8gbba"]
+[ext_resource type="PackedScene" uid="uid://epxifcblnehi" path="res://Scenes/card_slot.tscn" id="2_jjvhh"]
+[ext_resource type="Script" path="res://Scripts/player_hand.gd" id="3_kry3j"]
+[ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="4_2e8su"]
+[ext_resource type="Script" path="res://Scripts/enemey_card_slot.gd" id="4_dsx2y"]
+[ext_resource type="Script" path="res://Scripts/FriendlyPlayedCard.gd" id="4_yewx8"]
+[ext_resource type="Script" path="res://Scripts/enemey_hand.gd" id="6_6lkgs"]
+[ext_resource type="Script" path="res://Scenes/BattleManager.gd" id="7_bb5ge"]
+[ext_resource type="Script" path="res://Scripts/EnemeyPlayedCard.gd" id="7_prkjm"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+zoom = Vector2(0.85, 0.85)
+
+[node name="CardManager" type="Node2D" parent="."]
+script = ExtResource("1_8gbba")
+
+[node name="FriendlyCardSlot" parent="." instance=ExtResource("2_jjvhh")]
+position = Vector2(960, 675)
+friendlyslot = true
+
+[node name="PlayerHand" type="Node2D" parent="."]
+script = ExtResource("3_kry3j")
+
+[node name="EnemeyCardSlot" parent="." instance=ExtResource("2_jjvhh")]
+position = Vector2(960, 409)
+script = ExtResource("4_dsx2y")
+
+[node name="FriendlyPlayedCard" type="Node2D" parent="."]
+position = Vector2(360, 540)
+scale = Vector2(2.2, 2.2)
+script = ExtResource("4_yewx8")
+isfriendlyslot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="FriendlyPlayedCard"]
+texture = ExtResource("4_2e8su")
+
+[node name="CardName" type="RichTextLabel" parent="FriendlyPlayedCard"]
+unique_name_in_owner = true
+offset_left = -85.0
+offset_top = -127.0
+offset_right = 90.0
+offset_bottom = -58.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+fit_content = true
+
+[node name="CardHealth" type="RichTextLabel" parent="FriendlyPlayedCard"]
+unique_name_in_owner = true
+offset_left = -30.4545
+offset_top = -155.0
+offset_right = 31.5455
+offset_bottom = -132.0
+bbcode_enabled = true
+
+[node name="Move1" type="Button" parent="FriendlyPlayedCard"]
+offset_left = -84.0
+offset_right = 84.0
+offset_bottom = 31.0
+
+[node name="Move2" type="Button" parent="FriendlyPlayedCard"]
+offset_left = -84.0
+offset_top = 32.0
+offset_right = 84.0
+offset_bottom = 63.0
+
+[node name="Move3" type="Button" parent="FriendlyPlayedCard"]
+offset_left = -84.0
+offset_top = 64.0
+offset_right = 84.0
+offset_bottom = 95.0
+
+[node name="Move4" type="Button" parent="FriendlyPlayedCard"]
+offset_left = -84.091
+offset_top = 96.0
+offset_right = 83.909
+offset_bottom = 127.0
+
+[node name="DescriptionPanel" type="Panel" parent="FriendlyPlayedCard"]
+unique_name_in_owner = true
+visible = false
+offset_left = 91.0
+offset_top = -132.0
+offset_right = 227.0
+offset_bottom = 129.0
+
+[node name="DescriptionText" type="RichTextLabel" parent="FriendlyPlayedCard/DescriptionPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 2.0
+offset_right = 135.0
+offset_bottom = 159.0
+bbcode_enabled = true
+
+[node name="EnemeyPlayedCard" type="Node2D" parent="."]
+position = Vector2(1560, 540)
+scale = Vector2(2.2, 2.2)
+script = ExtResource("7_prkjm")
+
+[node name="Sprite2D" type="Sprite2D" parent="EnemeyPlayedCard"]
+texture = ExtResource("4_2e8su")
+
+[node name="CardName" type="RichTextLabel" parent="EnemeyPlayedCard"]
+offset_left = -85.0
+offset_top = -127.0
+offset_right = 90.0
+offset_bottom = -58.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+fit_content = true
+
+[node name="CardHealth" type="RichTextLabel" parent="EnemeyPlayedCard"]
+offset_left = -30.4545
+offset_top = -155.0
+offset_right = 31.5455
+offset_bottom = -132.0
+bbcode_enabled = true
+
+[node name="Move1" type="Button" parent="EnemeyPlayedCard"]
+offset_left = -84.0
+offset_right = 84.0
+offset_bottom = 31.0
+disabled = true
+
+[node name="Move2" type="Button" parent="EnemeyPlayedCard"]
+offset_left = -84.0
+offset_top = 32.0
+offset_right = 84.0
+offset_bottom = 63.0
+disabled = true
+
+[node name="Move3" type="Button" parent="EnemeyPlayedCard"]
+offset_left = -84.0
+offset_top = 64.0
+offset_right = 84.0
+offset_bottom = 95.0
+disabled = true
+
+[node name="Move4" type="Button" parent="EnemeyPlayedCard"]
+offset_left = -84.091
+offset_top = 96.0
+offset_right = 83.909
+offset_bottom = 127.0
+disabled = true
+
+[node name="DescriptionPanel" type="Panel" parent="EnemeyPlayedCard"]
+visible = false
+offset_left = -226.364
+offset_top = -131.818
+offset_right = -90.3636
+offset_bottom = 129.182
+
+[node name="DescriptionText" type="RichTextLabel" parent="EnemeyPlayedCard/DescriptionPanel"]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 135.0
+offset_bottom = 159.0
+bbcode_enabled = true
+
+[node name="EnemeyHand" type="Node2D" parent="."]
+script = ExtResource("6_6lkgs")
+
+[node name="BattleManager" type="Node" parent="."]
+script = ExtResource("7_bb5ge")
+
+[connection signal="mouse_entered" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_entered"]
+[connection signal="mouse_exited" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_exited"]
+[connection signal="pressed" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_pressed"]
+[connection signal="mouse_entered" from="FriendlyPlayedCard/Move2" to="FriendlyPlayedCard" method="_on_move_2_mouse_entered"]
+[connection signal="mouse_exited" from="FriendlyPlayedCard/Move2" to="FriendlyPlayedCard" method="_on_move_2_mouse_exited"]
+[connection signal="pressed" from="FriendlyPlayedCard/Move2" to="FriendlyPlayedCard" method="_on_move_2_pressed"]
+[connection signal="mouse_entered" from="FriendlyPlayedCard/Move3" to="FriendlyPlayedCard" method="_on_move_3_mouse_entered"]
+[connection signal="mouse_exited" from="FriendlyPlayedCard/Move3" to="FriendlyPlayedCard" method="_on_move_3_mouse_exited"]
+[connection signal="pressed" from="FriendlyPlayedCard/Move3" to="FriendlyPlayedCard" method="_on_move_3_pressed"]
+[connection signal="mouse_entered" from="FriendlyPlayedCard/Move4" to="FriendlyPlayedCard" method="_on_move_4_mouse_entered"]
+[connection signal="mouse_exited" from="FriendlyPlayedCard/Move4" to="FriendlyPlayedCard" method="_on_move_4_mouse_exited"]
+[connection signal="pressed" from="FriendlyPlayedCard/Move4" to="FriendlyPlayedCard" method="_on_move_4_pressed"]
+[connection signal="mouse_entered" from="EnemeyPlayedCard/Move1" to="EnemeyPlayedCard" method="_on_move_1_mouse_entered"]
+[connection signal="mouse_exited" from="EnemeyPlayedCard/Move1" to="EnemeyPlayedCard" method="_on_move_1_mouse_exited"]
+[connection signal="pressed" from="EnemeyPlayedCard/Move1" to="EnemeyPlayedCard" method="_on_move_1_pressed"]
+[connection signal="mouse_entered" from="EnemeyPlayedCard/Move2" to="EnemeyPlayedCard" method="_on_move_2_mouse_entered"]
+[connection signal="mouse_exited" from="EnemeyPlayedCard/Move2" to="EnemeyPlayedCard" method="_on_move_2_mouse_exited"]
+[connection signal="pressed" from="EnemeyPlayedCard/Move2" to="EnemeyPlayedCard" method="_on_move_2_pressed"]
+[connection signal="mouse_entered" from="EnemeyPlayedCard/Move3" to="EnemeyPlayedCard" method="_on_move_3_mouse_entered"]
+[connection signal="mouse_exited" from="EnemeyPlayedCard/Move3" to="EnemeyPlayedCard" method="_on_move_3_mouse_exited"]
+[connection signal="pressed" from="EnemeyPlayedCard/Move3" to="EnemeyPlayedCard" method="_on_move_3_pressed"]
+[connection signal="mouse_entered" from="EnemeyPlayedCard/Move4" to="EnemeyPlayedCard" method="_on_move_4_mouse_entered"]
+[connection signal="mouse_exited" from="EnemeyPlayedCard/Move4" to="EnemeyPlayedCard" method="_on_move_4_mouse_exited"]
+[connection signal="pressed" from="EnemeyPlayedCard/Move4" to="EnemeyPlayedCard" method="_on_move_4_pressed"]

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="base_move" load_steps=2 format=3 uid="uid://6rvtbc08hwuf"]
+
+[ext_resource type="Script" path="res://Scripts/Base_Move_Script.gd" id="1_k05d0"]
+
+[resource]
+script = ExtResource("1_k05d0")
+Name = "Whiplash"
+Description = ""
+damage = 40
+damaging_move = true
+healing = 0
+healing_move = false
+recoil_damage = 15
+does_poison_damage = false
+min_poison_damage = 3
+max_poison_damage = 7

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://lpyqwlbsh6sh"]
+
+[ext_resource type="Script" path="res://Scripts/card.gd" id="1_3gpws"]
+[ext_resource type="Resource" uid="uid://q3l340vhuxdb" path="res://Moves/Slash.tres" id="2_4pw3w"]
+[ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="2_7co4k"]
+[ext_resource type="Resource" uid="uid://6rvtbc08hwuf" path="res://Moves/Whiplash.tres" id="2_ilma4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxyyf"]
+size = Vector2(178, 265)
+
+[node name="Card" type="Node2D"]
+position = Vector2(567, 287)
+script = ExtResource("1_3gpws")
+card_name = "Test_Name"
+combat_actions = [ExtResource("2_4pw3w"), ExtResource("2_ilma4"), null, null]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7co4k")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_oxyyf")
+
+[node name="DebugNumber" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 11.0
+text = "1"
+horizontal_alignment = 1
+
+[node name="Card_Info" type="Node" parent="."]
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
