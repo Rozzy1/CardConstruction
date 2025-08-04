@@ -1,6 +1,7 @@
 extends Resource
 class_name base_move
-
+@export var unlocked : bool
+@export var move_cost : int
 @export var Name : String
 @export_multiline var Description : String
 @export var damage : int

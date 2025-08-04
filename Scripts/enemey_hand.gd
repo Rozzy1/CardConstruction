@@ -1,6 +1,5 @@
 extends Node2D
 
-const HANDCOUNT = 6
 const CARD_SCENE_PATH = "res://Scenes/enemey_card.tscn"
 const CARD_WIDTH = 200
 const HAND_Y_POSITION = 0
@@ -13,7 +12,7 @@ var centre_screen_x
 func _ready()->void:
 	centre_screen_x = $"../Camera2D".position.x
 	var card_scene = preload(CARD_SCENE_PATH)
-	for i in range(HANDCOUNT):
+	for i in Globals.enemey_hand.size():
 		var newcard = card_scene.instantiate()
 		$"../CardManager".add_child(newcard)
 		newcard.card_info = Globals.enemey_hand[i]
@@ -37,12 +36,12 @@ func update_hand_positions():
 
 func calculate_card_positions(index):
 	var total_width = (enemey_hand.size() -1) * CARD_WIDTH
-	var x_offset = centre_screen_x + index * CARD_WIDTH - total_width / 2
+	var x_offset = centre_screen_x + index * CARD_WIDTH - float(total_width) / 2
 	return x_offset
 
-func animate_card_to_position(card, position):
+func animate_card_to_position(card, Position):
 	var tween = get_tree().create_tween()
-	tween.tween_property(card, "position", position, HAND_ANIMATION_SPEED)
+	tween.tween_property(card, "position", Position, HAND_ANIMATION_SPEED)
 
 func remove_card_from_hand(card):
 	if card in enemey_hand:

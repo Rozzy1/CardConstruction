@@ -1,4 +1,16 @@
-[gd_scene format=3 uid="uid://ed3ydacjbxer"]
+[gd_scene load_steps=8 format=3 uid="uid://ed3ydacjbxer"]
+
+[ext_resource type="Script" path="res://Scripts/testing.gd" id="1_suai6"]
+[ext_resource type="Script" path="res://Scripts/MoveSelectionContainer.gd" id="2_mhwfy"]
+[ext_resource type="Script" path="res://Scripts/CardBeingCreated.gd" id="3_fyfle"]
+[ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="3_gs1es"]
+[ext_resource type="Script" path="res://Scripts/CreateCardButton.gd" id="5_6ad7w"]
+
+[sub_resource type="Theme" id="Theme_mefof"]
+TextEdit/font_sizes/font_size = 11
+
+[sub_resource type="Theme" id="Theme_0t8lw"]
+RichTextLabel/font_sizes/normal_font_size = 32
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -7,12 +19,152 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_mhwfy")
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_right = 428.0
-offset_bottom = 1075.0
-item_count = 3
-item_0/text = "dassadasd"
-item_1/text = "asdasdad"
-item_2/text = "asdasdasd"
+offset_left = 685.0
+offset_top = 45.0
+offset_right = 920.0
+offset_bottom = 215.0
+text = "change to battle scene"
+script = ExtResource("1_suai6")
+
+[node name="MoveSelectionContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 593.0
+offset_bottom = 1076.0
+
+[node name="CardBeingCreated" type="Node2D" parent="."]
+position = Vector2(1300, 550)
+scale = Vector2(2.2, 2.2)
+script = ExtResource("3_fyfle")
+
+[node name="Sprite2D" type="Sprite2D" parent="CardBeingCreated"]
+texture = ExtResource("3_gs1es")
+
+[node name="Move1" type="Button" parent="CardBeingCreated"]
+offset_left = -84.0
+offset_right = 84.0
+offset_bottom = 31.0
+
+[node name="Move2" type="Button" parent="CardBeingCreated"]
+offset_left = -84.0
+offset_top = 32.0
+offset_right = 84.0
+offset_bottom = 63.0
+
+[node name="Move3" type="Button" parent="CardBeingCreated"]
+offset_left = -84.0
+offset_top = 64.0
+offset_right = 84.0
+offset_bottom = 95.0
+
+[node name="Move4" type="Button" parent="CardBeingCreated"]
+offset_left = -84.091
+offset_top = 96.0
+offset_right = 83.909
+offset_bottom = 127.0
+
+[node name="DescriptionPanel" type="Panel" parent="CardBeingCreated"]
+visible = false
+offset_left = -226.364
+offset_top = -131.818
+offset_right = -90.3636
+offset_bottom = 129.182
+
+[node name="DescriptionText" type="RichTextLabel" parent="CardBeingCreated/DescriptionPanel"]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 135.0
+offset_bottom = 159.0
+bbcode_enabled = true
+
+[node name="TextEdit" type="LineEdit" parent="CardBeingCreated"]
+offset_left = -85.0
+offset_top = -128.0
+offset_right = 85.0
+offset_bottom = -97.0
+theme = SubResource("Theme_mefof")
+placeholder_text = "Name"
+context_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="HSlider" type="HSlider" parent="CardBeingCreated"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -143.636
+offset_top = -152.273
+offset_right = 143.364
+offset_bottom = -136.273
+grow_horizontal = 2
+grow_vertical = 2
+min_value = 1.0
+value = 1.0
+
+[node name="CardHealth" type="RichTextLabel" parent="CardBeingCreated"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = -170.0
+offset_right = 35.0
+offset_bottom = -148.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+scroll_active = false
+
+[node name="CreateCardButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1611.0
+offset_top = 519.0
+offset_right = 1881.0
+offset_bottom = 608.0
+text = "Create Card!"
+script = ExtResource("5_6ad7w")
+
+[node name="ValidText" type="RichTextLabel" parent="CreateCardButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.0
+offset_top = -160.5
+offset_right = 133.0
+offset_bottom = -45.5
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+
+[node name="MoneyDisplay" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 1780.0
+offset_top = 15.0
+offset_right = 1920.0
+offset_bottom = 64.0
+theme = SubResource("Theme_0t8lw")
+bbcode_enabled = true
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
+[connection signal="mouse_entered" from="CardBeingCreated/Move1" to="CardBeingCreated" method="_on_move_1_mouse_entered"]
+[connection signal="mouse_exited" from="CardBeingCreated/Move1" to="CardBeingCreated" method="_on_move_1_mouse_exited"]
+[connection signal="pressed" from="CardBeingCreated/Move1" to="CardBeingCreated" method="_on_move_1_pressed"]
+[connection signal="mouse_entered" from="CardBeingCreated/Move2" to="CardBeingCreated" method="_on_move_2_mouse_entered"]
+[connection signal="mouse_exited" from="CardBeingCreated/Move2" to="CardBeingCreated" method="_on_move_2_mouse_exited"]
+[connection signal="pressed" from="CardBeingCreated/Move2" to="CardBeingCreated" method="_on_move_2_pressed"]
+[connection signal="mouse_entered" from="CardBeingCreated/Move3" to="CardBeingCreated" method="_on_move_3_mouse_entered"]
+[connection signal="mouse_exited" from="CardBeingCreated/Move3" to="CardBeingCreated" method="_on_move_3_mouse_exited"]
+[connection signal="pressed" from="CardBeingCreated/Move3" to="CardBeingCreated" method="_on_move_3_pressed"]
+[connection signal="mouse_entered" from="CardBeingCreated/Move4" to="CardBeingCreated" method="_on_move_4_mouse_entered"]
+[connection signal="mouse_exited" from="CardBeingCreated/Move4" to="CardBeingCreated" method="_on_move_4_mouse_exited"]
+[connection signal="pressed" from="CardBeingCreated/Move4" to="CardBeingCreated" method="_on_move_4_pressed"]
+[connection signal="text_changed" from="CardBeingCreated/TextEdit" to="CardBeingCreated" method="_on_text_edit_text_changed"]
+[connection signal="drag_ended" from="CardBeingCreated/HSlider" to="CardBeingCreated" method="_on_h_slider_drag_ended"]
+[connection signal="value_changed" from="CardBeingCreated/HSlider" to="CardBeingCreated" method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="CreateCardButton" to="CreateCardButton" method="_on_pressed"]

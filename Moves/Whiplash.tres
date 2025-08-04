@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_k05d0")
+unlocked = false
+move_cost = 60
 Name = "Whiplash"
 Description = ""
 damage = 40

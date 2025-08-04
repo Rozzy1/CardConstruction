@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="base_enemey" load_steps=7 format=3 uid="uid://4vk22ydn4guj"]
+
+[ext_resource type="Script" path="res://Scripts/base_card_script.gd" id="1_2t67p"]
+[ext_resource type="Script" path="res://Scripts/base_enemey.gd" id="1_k60li"]
+[ext_resource type="Resource" uid="uid://q3l340vhuxdb" path="res://Moves/Slash.tres" id="1_w54vn"]
+[ext_resource type="Resource" uid="uid://6rvtbc08hwuf" path="res://Moves/Whiplash.tres" id="2_cfndv"]
+
+[sub_resource type="Resource" id="Resource_jc6xa"]
+script = ExtResource("1_2t67p")
+card_name = "TestEnemeyCard"
+Max_Health = 50
+combat_actions = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("1_w54vn"), ExtResource("2_cfndv")])
+
+[sub_resource type="Resource" id="Resource_jgacs"]
+script = ExtResource("1_2t67p")
+card_name = "TestEnemeyCard2"
+Max_Health = 40
+combat_actions = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("1_w54vn"), ExtResource("2_cfndv")])
+
+[resource]
+script = ExtResource("1_k60li")
+enemey_name = "TestEnemey"
+enemey_hand = Array[ExtResource("1_2t67p")]([SubResource("Resource_jc6xa"), SubResource("Resource_jgacs")])
+unlock_moves = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("2_cfndv")])
+money_earned = 100
+max_turns = 100
+boss_enemey = false

@@ -9,9 +9,11 @@ var number_of_turns_taken : int = 0
 @onready var playerdisplay = $"../FriendlyPlayedCard"
 @onready var enemeydisplay = $"../EnemeyPlayedCard"
 @onready var playerhand = $"../PlayerHand"
+var enemey : base_enemey
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$"../FriendlyPlayedCard".end_player_turn.connect(end_player_turn)
+	enemey = Globals.current_enemey
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,11 +48,11 @@ func decide_enemey_move():
 		var current_priority : int = 0
 		if enemey_card_info.combat_actions[i].damage >= player_card_info.current_health:
 			current_priority = current_priority + 100
-		if enemey_card_info.combat_actions[i].healing_move == true and enemey_card_info.current_health > current_enemey_move.healing:
+		if enemey_card_info.combat_actions[i].healing_move == true and enemey_card_info.current_health > enemey_card_info.combat_actions[i].healing:
 			current_priority = current_priority - 15
-		if enemey_card_info.combat_actions[i].healing_move == true and enemey_card_info.current_health < (enemey_card_info.current_health * 30)/100:
+		if enemey_card_info.combat_actions[i].healing_move == true and enemey_card_info.current_health < (float(enemey_card_info.current_health * 30))/100:
 			current_priority = current_priority + 50
-		if enemey_card_info.combat_actions[i].damaging_move == true and enemey_card_info.current_health > (enemey_card_info.current_health * 80)/100:
+		if enemey_card_info.combat_actions[i].damaging_move == true and enemey_card_info.current_health > (float(enemey_card_info.current_health * 80))/100:
 			current_priority = current_priority + 20
 		if enemey_card_info.combat_actions[i].recoil_damage >= enemey_card_info.current_health:
 			current_priority = current_priority - 100
@@ -75,8 +77,6 @@ func start_attack_phase(player_move,enemey_move):
 	start_player_turn()
 
 func start_player_turn():
-	if playerhand.player_hand == [] and player_card_slot.is_card_in_slot == false:
-		player_lost()
 	current_player_move = null
 	current_enemey_move = null
 	card_manager.can_drag_cards = true
@@ -84,7 +84,24 @@ func start_player_turn():
 	playerdisplay.start_player_turn()
 	player_card_slot.check_card_status()
 	enemey_card_slot.check_card_status()
+	if playerhand.player_hand == [] and player_card_slot.is_card_in_slot == false:
+		player_lost()
+	if enemey_hand.enemey_hand == [] and enemey_card_slot.is_card_in_slot == false:
+		player_won()
 
 func player_lost():
-	get_tree().change_scene_to_file("res://Scenes/card_builder_scene#.tscn")
-	#get_tree().quit()
+	if enemey.enemey_hand == [] and enemey_card_slot.is_card_in_slot == false:
+		player_won()
+		return
+	get_tree().quit()
+
+func player_won():
+	print(calculate_money_earnings())
+
+
+func calculate_money_earnings():
+	var total_money : int
+	for i in enemey.enemey_hand.size():
+		for move in enemey.enemey_hand[i].combat_actions:
+			total_money = total_money + move.move_cost
+	return total_money

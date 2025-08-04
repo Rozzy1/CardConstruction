@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/enemey_card_slot.gd" id="4_dsx2y"]
 [ext_resource type="Script" path="res://Scripts/FriendlyPlayedCard.gd" id="4_yewx8"]
 [ext_resource type="Script" path="res://Scripts/enemey_hand.gd" id="6_6lkgs"]
-[ext_resource type="Script" path="res://Scenes/BattleManager.gd" id="7_bb5ge"]
+[ext_resource type="Script" path="res://Scripts/BattleManager.gd" id="7_bb5ge"]
 [ext_resource type="Script" path="res://Scripts/EnemeyPlayedCard.gd" id="7_prkjm"]
 
 [sub_resource type="Animation" id="Animation_wax02"]

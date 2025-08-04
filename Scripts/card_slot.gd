@@ -12,7 +12,8 @@ var card_in_slot : Node2D
 func _process(_delta):
 	if is_card_in_slot == true and friendlyslot == true and emitted_signal == false:
 		card_in_play.emit(card_in_slot)
-		card_in_slot.card_died.connect(card_died)
+		if !card_in_slot.card_died.connect(card_died):
+			card_in_slot.card_died.connect(card_died)
 		emitted_signal = true
 	elif is_card_in_slot == false and emitted_signal == true:
 		emitted_signal = false

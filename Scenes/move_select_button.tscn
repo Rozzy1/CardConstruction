@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://sgg7jqkjla0"]
+
+[ext_resource type="Script" path="res://Scripts/MoveSelectButton.gd" id="1_mwpgu"]
+
+[node name="MoveSelectButton" type="Button"]
+offset_right = 193.0
+offset_bottom = 51.0
+text = "Slash"
+script = ExtResource("1_mwpgu")

@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_h25sc")
+unlocked = true
+move_cost = 50
 Name = "Slash"
 Description = "Slashes Your Opponent for 15 damage"
 damage = 15
