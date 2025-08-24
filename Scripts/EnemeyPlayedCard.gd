@@ -9,25 +9,37 @@ signal end_player_turn
 @onready var card_health = $CardHealth
 @onready var animation_player = $AnimationPlayer
 @onready var card_flip_timer = $Timer
+@onready var healing_particles = $"Gpu Heal Animation"
+@onready var enemey_card_slot = $"../EnemeyCardSlot"
 var current_enemey_moves : Array = []
+var Card_name : String
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	card_flip_timer.wait_time = cardflippingtime
 	animation_player.play("card_flip")
 	if isfriendlyslot == false:
-		$"../EnemeyCardSlot".enemey_card_in_play.connect(change_to_enemey_card)
-		$"../EnemeyCardSlot".enemey_card_not_in_play.connect(remove_card_data)
+		enemey_card_slot.enemey_card_in_play.connect(change_to_new_card)
+		enemey_card_slot.enemey_card_not_in_play.connect(remove_card_data)
 	for i in 4:
 		var move = get_node("Move"+str(i+1))
 		move.add_theme_stylebox_override("focus", StyleBoxEmpty.new()) #gets rid of the button outline when you click on a button
+	for child in self.get_children():
+		var parent_material = material.duplicate()
+		parent_material.set_shader_parameter("blink_intensity", 1)
+		if child.has_method("material"):
+			child.material = parent_material
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
-func change_to_enemey_card(card):
+func change_to_new_card(card):
 	if !current_enemey_moves:
 		flip_card_animation("forward")
+	update_card_visuals(card)
+
+func update_card_visuals(card):
+	Card_name = card.card_info.card_name
 	card_name.text = card.card_info.card_name
 	card_health.text = str(card.card_info.current_health) + "/" + str(card.card_info.Max_Health)
 	#Loops through the cards combatactions and then sets the internal moveset along with the card names

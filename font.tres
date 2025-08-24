@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://j2pw8ihd8q83"]
+
+[ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="1_250pb"]
+
+[resource]
+default_font = ExtResource("1_250pb")
+default_font_size = 20
+Fonts/fonts/normal = ExtResource("1_250pb")

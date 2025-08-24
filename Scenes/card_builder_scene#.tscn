@@ -1,16 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://ed3ydacjbxer"]
+[gd_scene load_steps=9 format=3 uid="uid://ed3ydacjbxer"]
 
 [ext_resource type="Script" path="res://Scripts/testing.gd" id="1_suai6"]
 [ext_resource type="Script" path="res://Scripts/MoveSelectionContainer.gd" id="2_mhwfy"]
 [ext_resource type="Script" path="res://Scripts/CardBeingCreated.gd" id="3_fyfle"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="3_gs1es"]
 [ext_resource type="Script" path="res://Scripts/CreateCardButton.gd" id="5_6ad7w"]
+[ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="5_f1nk7"]
+[ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="7_2kt5u"]
 
-[sub_resource type="Theme" id="Theme_mefof"]
-TextEdit/font_sizes/font_size = 11
-
-[sub_resource type="Theme" id="Theme_0t8lw"]
-RichTextLabel/font_sizes/normal_font_size = 32
+[sub_resource type="Theme" id="Theme_r4ljx"]
+default_font = ExtResource("7_2kt5u")
+default_font_size = 80
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -47,24 +47,28 @@ texture = ExtResource("3_gs1es")
 offset_left = -84.0
 offset_right = 84.0
 offset_bottom = 31.0
+theme = ExtResource("5_f1nk7")
 
 [node name="Move2" type="Button" parent="CardBeingCreated"]
 offset_left = -84.0
 offset_top = 32.0
 offset_right = 84.0
 offset_bottom = 63.0
+theme = ExtResource("5_f1nk7")
 
 [node name="Move3" type="Button" parent="CardBeingCreated"]
 offset_left = -84.0
 offset_top = 64.0
 offset_right = 84.0
 offset_bottom = 95.0
+theme = ExtResource("5_f1nk7")
 
 [node name="Move4" type="Button" parent="CardBeingCreated"]
 offset_left = -84.091
 offset_top = 96.0
 offset_right = 83.909
 offset_bottom = 127.0
+theme = ExtResource("5_f1nk7")
 
 [node name="DescriptionPanel" type="Panel" parent="CardBeingCreated"]
 visible = false
@@ -78,6 +82,7 @@ layout_mode = 0
 offset_top = 2.0
 offset_right = 135.0
 offset_bottom = 159.0
+theme = ExtResource("5_f1nk7")
 bbcode_enabled = true
 
 [node name="TextEdit" type="LineEdit" parent="CardBeingCreated"]
@@ -85,7 +90,7 @@ offset_left = -85.0
 offset_top = -128.0
 offset_right = 85.0
 offset_bottom = -97.0
-theme = SubResource("Theme_mefof")
+theme = ExtResource("5_f1nk7")
 placeholder_text = "Name"
 context_menu_enabled = false
 shortcut_keys_enabled = false
@@ -116,6 +121,7 @@ offset_right = 35.0
 offset_bottom = -148.0
 grow_horizontal = 2
 size_flags_horizontal = 0
+theme = ExtResource("5_f1nk7")
 scroll_active = false
 
 [node name="CreateCardButton" type="Button" parent="."]
@@ -124,6 +130,7 @@ offset_left = 1611.0
 offset_top = 519.0
 offset_right = 1881.0
 offset_bottom = 608.0
+theme = ExtResource("5_f1nk7")
 text = "Create Card!"
 script = ExtResource("5_6ad7w")
 
@@ -144,11 +151,11 @@ bbcode_enabled = true
 
 [node name="MoneyDisplay" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 1780.0
+offset_left = 1721.0
 offset_top = 15.0
 offset_right = 1920.0
-offset_bottom = 64.0
-theme = SubResource("Theme_0t8lw")
+offset_bottom = 115.0
+theme = SubResource("Theme_r4ljx")
 bbcode_enabled = true
 
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

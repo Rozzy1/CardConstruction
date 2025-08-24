@@ -9,22 +9,34 @@ signal end_player_turn
 @onready var card_health = %CardHealth
 @onready var animation_player = $AnimationPlayer
 @onready var card_flip_timer = $CardFlipTimer
+@onready var healing_particles = $"Gpu Heal Animation"
+@onready var friendlycardslot = $"../FriendlyCardSlot"
 var current_player_moves : Array = []
+var Card_name : String
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	card_flip_timer.wait_time = cardflippingtime
 	animation_player.play("card_flip")
 	if isfriendlyslot == true:
-		$"../FriendlyCardSlot".card_in_play.connect(change_to_players_card)
-		$"../FriendlyCardSlot".card_not_in_play.connect(remove_card_data)
+		friendlycardslot.card_in_play.connect(change_to_new_card)
+		friendlycardslot.card_not_in_play.connect(remove_card_data)
+	for child in self.get_children():
+		var parent_material = material.duplicate()
+		parent_material.set_shader_parameter("blink_intensity", 1)
+		if child.has_method("material"):
+			child.material = parent_material
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
-func change_to_players_card(card):
+func change_to_new_card(card):
 	if !current_player_moves:
 		flip_card_animation("forward")
+	update_card_visuals(card)
+
+func update_card_visuals(card):
+	Card_name = card.card_info.card_name
 	card_name.text = card.card_info.card_name
 	card_health.text = str(card.card_info.current_health) + "/" + str(card.card_info.Max_Health)
 	#Loops through the cards combatactions and then sets the internal moveset along with the card names
@@ -33,7 +45,6 @@ func change_to_players_card(card):
 			current_player_moves.append(card.card_info.combat_actions[i])
 			var move = get_node("Move"+str(i+1))
 			move.text = current_player_moves[i].Name
-
 
 func flip_card_animation(direction):
 	if direction == "forward":

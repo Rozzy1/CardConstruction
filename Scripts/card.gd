@@ -5,6 +5,7 @@ signal card_died
 @onready var card_name_label = $CardName
 @onready var card_health_label = $CardHealth
 @export var card_info : base_card
+@export var poisoned : int = 0
 
 var in_card_slot : Node2D
 var hand_position
@@ -17,7 +18,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	$DebugNumber.text = card_info.card_name
 	if hand_position and !instanced:
 		card_info.current_health = card_info.Max_Health
 		update_card_visuals()
@@ -31,18 +31,7 @@ func _on_area_2d_mouse_entered():
 func _on_area_2d_mouse_exited():
 	emit_signal("hovered_off",self)
 
-func take_damage(damage_amt):
-	card_info.current_health = card_info.current_health - damage_amt
-	if card_info.current_health <= 0:
-		card_died.emit()
-		queue_free()
-	update_card_visuals()
 
-func heal(heal_amt):
-	card_info.current_health = card_info.current_health + heal_amt
-	if card_info.current_health > card_info.Max_Health:
-		card_info.current_health = card_info.Max_Health
-	update_card_visuals()
 
 func update_card_visuals():
 	card_health_label.text = str(card_info.current_health) + "/" + str(card_info.Max_Health)
@@ -55,3 +44,7 @@ func update_card_visuals():
 			move.text = card_info.combat_actions[i-1].Name
 		else:
 			move.text = ""
+
+func remove_card():
+	card_died.emit()
+	queue_free()

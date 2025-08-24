@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c38ohjln32010"]
+[gd_scene load_steps=22 format=3 uid="uid://c38ohjln32010"]
 
 [ext_resource type="Script" path="res://Scripts/CardManager.gd" id="1_8gbba"]
 [ext_resource type="PackedScene" uid="uid://epxifcblnehi" path="res://Scenes/card_slot.tscn" id="2_jjvhh"]
@@ -6,9 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="4_2e8su"]
 [ext_resource type="Script" path="res://Scripts/enemey_card_slot.gd" id="4_dsx2y"]
 [ext_resource type="Script" path="res://Scripts/FriendlyPlayedCard.gd" id="4_yewx8"]
+[ext_resource type="Shader" path="res://Scenes/CardHit.gdshader" id="5_vgkyg"]
 [ext_resource type="Script" path="res://Scripts/enemey_hand.gd" id="6_6lkgs"]
 [ext_resource type="Script" path="res://Scripts/BattleManager.gd" id="7_bb5ge"]
 [ext_resource type="Script" path="res://Scripts/EnemeyPlayedCard.gd" id="7_prkjm"]
+[ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="7_s6wcj"]
+[ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="11_i60cs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_osa1h"]
+shader = ExtResource("5_vgkyg")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
 
 [sub_resource type="Animation" id="Animation_wax02"]
 length = 0.001
@@ -192,6 +200,50 @@ _data = {
 "card_flip": SubResource("Animation_uy8ql")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_agcth"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(200, 1, 1)
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, -1)
+spread = 5.0
+initial_velocity_min = 780.41
+initial_velocity_max = 780.41
+gravity = Vector3(0, 980, 0)
+scale_min = 25.0
+scale_max = 25.0
+color = Color(0, 1, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6qmt"]
+shader = ExtResource("5_vgkyg")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ojef"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+shadow_color = Color(0, 0, 0, 0.254902)
+shadow_size = 10
+shadow_offset = Vector2(-50, 10)
+anti_aliasing_size = 0.01
+
+[sub_resource type="Theme" id="Theme_8oith"]
+Panel/styles/panel = SubResource("StyleBoxFlat_5ojef")
+
+[sub_resource type="Theme" id="Theme_u8xhf"]
+default_font = ExtResource("11_i60cs")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+RichTextLabel/font_sizes/normal_font_size = 96
+
 [node name="Main" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -213,12 +265,14 @@ position = Vector2(960, 409)
 script = ExtResource("4_dsx2y")
 
 [node name="FriendlyPlayedCard" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_osa1h")
 position = Vector2(360, 540)
 scale = Vector2(2.2, 2.2)
 script = ExtResource("4_yewx8")
 isfriendlyslot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="FriendlyPlayedCard"]
+use_parent_material = true
 texture = ExtResource("4_2e8su")
 
 [node name="CardName" type="RichTextLabel" parent="FriendlyPlayedCard"]
@@ -230,6 +284,7 @@ offset_right = 90.0
 offset_bottom = -58.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("7_s6wcj")
 bbcode_enabled = true
 fit_content = true
 
@@ -240,6 +295,7 @@ offset_left = -30.4545
 offset_top = -155.0
 offset_right = 31.5455
 offset_bottom = -132.0
+theme = ExtResource("7_s6wcj")
 bbcode_enabled = true
 
 [node name="Move1" type="Button" parent="FriendlyPlayedCard"]
@@ -247,6 +303,7 @@ visible = false
 offset_left = -84.0
 offset_right = 84.0
 offset_bottom = 31.0
+theme = ExtResource("7_s6wcj")
 
 [node name="Move2" type="Button" parent="FriendlyPlayedCard"]
 visible = false
@@ -254,6 +311,7 @@ offset_left = -84.0
 offset_top = 32.0
 offset_right = 84.0
 offset_bottom = 63.0
+theme = ExtResource("7_s6wcj")
 
 [node name="Move3" type="Button" parent="FriendlyPlayedCard"]
 visible = false
@@ -261,6 +319,7 @@ offset_left = -84.0
 offset_top = 64.0
 offset_right = 84.0
 offset_bottom = 95.0
+theme = ExtResource("7_s6wcj")
 
 [node name="Move4" type="Button" parent="FriendlyPlayedCard"]
 visible = false
@@ -268,6 +327,7 @@ offset_left = -84.091
 offset_top = 96.0
 offset_right = 83.909
 offset_bottom = 127.0
+theme = ExtResource("7_s6wcj")
 
 [node name="DescriptionPanel" type="Panel" parent="FriendlyPlayedCard"]
 unique_name_in_owner = true
@@ -283,6 +343,7 @@ layout_mode = 0
 offset_top = 2.0
 offset_right = 135.0
 offset_bottom = 159.0
+theme = ExtResource("7_s6wcj")
 bbcode_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FriendlyPlayedCard"]
@@ -292,12 +353,25 @@ libraries = {
 
 [node name="CardFlipTimer" type="Timer" parent="FriendlyPlayedCard"]
 
+[node name="Gpu Heal Animation" type="GPUParticles2D" parent="FriendlyPlayedCard"]
+z_index = 10
+position = Vector2(1.36364, -75.4546)
+scale = Vector2(0.454545, 0.454545)
+emitting = false
+amount = 48
+process_material = SubResource("ParticleProcessMaterial_agcth")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.95
+
 [node name="EnemeyPlayedCard" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_y6qmt")
 position = Vector2(1560, 540)
 scale = Vector2(2.2, 2.2)
 script = ExtResource("7_prkjm")
 
 [node name="Sprite2D" type="Sprite2D" parent="EnemeyPlayedCard"]
+use_parent_material = true
 texture = ExtResource("4_2e8su")
 
 [node name="CardName" type="RichTextLabel" parent="EnemeyPlayedCard"]
@@ -308,6 +382,7 @@ offset_right = 90.0
 offset_bottom = -58.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("7_s6wcj")
 bbcode_enabled = true
 fit_content = true
 
@@ -317,6 +392,7 @@ offset_left = -30.4545
 offset_top = -155.0
 offset_right = 31.5455
 offset_bottom = -132.0
+theme = ExtResource("7_s6wcj")
 bbcode_enabled = true
 
 [node name="Move1" type="Button" parent="EnemeyPlayedCard"]
@@ -324,6 +400,7 @@ visible = false
 offset_left = -84.0
 offset_right = 84.0
 offset_bottom = 31.0
+theme = ExtResource("7_s6wcj")
 disabled = true
 
 [node name="Move2" type="Button" parent="EnemeyPlayedCard"]
@@ -332,6 +409,7 @@ offset_left = -84.0
 offset_top = 32.0
 offset_right = 84.0
 offset_bottom = 63.0
+theme = ExtResource("7_s6wcj")
 disabled = true
 
 [node name="Move3" type="Button" parent="EnemeyPlayedCard"]
@@ -340,6 +418,7 @@ offset_left = -84.0
 offset_top = 64.0
 offset_right = 84.0
 offset_bottom = 95.0
+theme = ExtResource("7_s6wcj")
 disabled = true
 
 [node name="Move4" type="Button" parent="EnemeyPlayedCard"]
@@ -348,6 +427,7 @@ offset_left = -84.091
 offset_top = 96.0
 offset_right = 83.909
 offset_bottom = 127.0
+theme = ExtResource("7_s6wcj")
 disabled = true
 
 [node name="DescriptionPanel" type="Panel" parent="EnemeyPlayedCard"]
@@ -362,6 +442,7 @@ layout_mode = 0
 offset_top = 2.0
 offset_right = 135.0
 offset_bottom = 159.0
+theme = ExtResource("7_s6wcj")
 bbcode_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="EnemeyPlayedCard"]
@@ -371,11 +452,39 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="EnemeyPlayedCard"]
 
+[node name="Gpu Heal Animation" type="GPUParticles2D" parent="EnemeyPlayedCard"]
+z_index = 10
+position = Vector2(1.36364, -75.4546)
+scale = Vector2(0.454545, 0.454545)
+emitting = false
+amount = 48
+process_material = SubResource("ParticleProcessMaterial_agcth")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.95
+
 [node name="EnemeyHand" type="Node2D" parent="."]
 script = ExtResource("6_6lkgs")
 
 [node name="BattleManager" type="Node" parent="."]
 script = ExtResource("7_bb5ge")
+
+[node name="BattleTextDisplay" type="Panel" parent="BattleManager"]
+visible = false
+offset_left = 148.0
+offset_top = 856.0
+offset_right = 1769.0
+offset_bottom = 1061.0
+theme = SubResource("Theme_8oith")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BattleManager/BattleTextDisplay"]
+layout_mode = 0
+offset_left = 101.0
+offset_top = -3.0
+offset_right = 1523.0
+offset_bottom = 197.0
+theme = SubResource("Theme_u8xhf")
+bbcode_enabled = true
 
 [connection signal="mouse_entered" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_entered"]
 [connection signal="mouse_exited" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_exited"]

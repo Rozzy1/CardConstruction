@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://crsxli5i2qopb"]
+[gd_scene load_steps=4 format=3 uid="uid://crsxli5i2qopb"]
 
 [ext_resource type="Script" path="res://Scripts/enemey_card.gd" id="1_7q5jj"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="2_cuvoh"]
+[ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="3_o6l5f"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_7q5jj")
@@ -24,6 +25,7 @@ offset_right = 90.0
 offset_bottom = -58.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("3_o6l5f")
 bbcode_enabled = true
 fit_content = true
 
@@ -33,6 +35,7 @@ offset_left = -30.4545
 offset_top = -155.0
 offset_right = 31.5455
 offset_bottom = -132.0
+theme = ExtResource("3_o6l5f")
 bbcode_enabled = true
 
 [node name="Move1" type="Button" parent="."]
@@ -40,6 +43,8 @@ visible = false
 offset_left = -84.0
 offset_right = 84.0
 offset_bottom = 31.0
+theme = ExtResource("3_o6l5f")
+disabled = true
 toggle_mode = true
 
 [node name="Move2" type="Button" parent="."]
@@ -48,6 +53,8 @@ offset_left = -84.0
 offset_top = 32.0
 offset_right = 84.0
 offset_bottom = 63.0
+theme = ExtResource("3_o6l5f")
+disabled = true
 toggle_mode = true
 
 [node name="Move3" type="Button" parent="."]
@@ -56,6 +63,8 @@ offset_left = -84.0
 offset_top = 64.0
 offset_right = 84.0
 offset_bottom = 95.0
+theme = ExtResource("3_o6l5f")
+disabled = true
 toggle_mode = true
 
 [node name="Move4" type="Button" parent="."]
@@ -64,3 +73,5 @@ offset_left = -84.091
 offset_top = 96.0
 offset_right = 83.909
 offset_bottom = 127.0
+theme = ExtResource("3_o6l5f")
+disabled = true
