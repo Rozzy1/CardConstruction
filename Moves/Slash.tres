@@ -14,5 +14,4 @@ healing = 0
 healing_move = false
 recoil_damage = 0
 does_poison_damage = false
-min_poison_damage = 3
-max_poison_damage = 7
+chance_to_poison = 0.0

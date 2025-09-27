@@ -1,21 +1,22 @@
-[gd_resource type="Resource" script_class="base_enemey" load_steps=7 format=3 uid="uid://4vk22ydn4guj"]
+[gd_resource type="Resource" script_class="base_enemey" load_steps=8 format=3 uid="uid://4vk22ydn4guj"]
 
+[ext_resource type="Resource" uid="uid://slo2ui6hqbyo" path="res://Moves/Healing_Prayer.tres" id="1_0ww5t"]
 [ext_resource type="Script" path="res://Scripts/base_card_script.gd" id="1_2t67p"]
 [ext_resource type="Script" path="res://Scripts/base_enemey.gd" id="1_k60li"]
-[ext_resource type="Resource" uid="uid://q3l340vhuxdb" path="res://Moves/Slash.tres" id="1_w54vn"]
 [ext_resource type="Resource" uid="uid://6rvtbc08hwuf" path="res://Moves/Whiplash.tres" id="2_cfndv"]
+[ext_resource type="Resource" uid="uid://q3l340vhuxdb" path="res://Moves/Slash.tres" id="3_yhx2v"]
 
 [sub_resource type="Resource" id="Resource_jc6xa"]
 script = ExtResource("1_2t67p")
 card_name = "TestEnemeyCard"
 Max_Health = 50
-combat_actions = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("1_w54vn"), ExtResource("2_cfndv")])
+combat_actions = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("1_0ww5t"), ExtResource("2_cfndv"), ExtResource("3_yhx2v")])
 
 [sub_resource type="Resource" id="Resource_jgacs"]
 script = ExtResource("1_2t67p")
 card_name = "TestEnemeyCard2"
 Max_Health = 40
-combat_actions = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("1_w54vn"), ExtResource("2_cfndv")])
+combat_actions = Array[Resource("res://Scripts/Base_Move_Script.gd")]([ExtResource("1_0ww5t")])
 
 [resource]
 script = ExtResource("1_k60li")

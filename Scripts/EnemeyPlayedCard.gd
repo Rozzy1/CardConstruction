@@ -10,6 +10,7 @@ signal end_player_turn
 @onready var animation_player = $AnimationPlayer
 @onready var card_flip_timer = $Timer
 @onready var healing_particles = $"Gpu Heal Animation"
+@onready var poison_particles = $"Gpu Poison Animation"
 @onready var enemey_card_slot = $"../EnemeyCardSlot"
 var current_enemey_moves : Array = []
 var Card_name : String
@@ -18,8 +19,8 @@ func _ready():
 	card_flip_timer.wait_time = cardflippingtime
 	animation_player.play("card_flip")
 	if isfriendlyslot == false:
-		enemey_card_slot.enemey_card_in_play.connect(change_to_new_card)
-		enemey_card_slot.enemey_card_not_in_play.connect(remove_card_data)
+		enemey_card_slot.card_in_play.connect(change_to_new_card)
+		enemey_card_slot.card_not_in_play.connect(remove_card_data)
 	for i in 4:
 		var move = get_node("Move"+str(i+1))
 		move.add_theme_stylebox_override("focus", StyleBoxEmpty.new()) #gets rid of the button outline when you click on a button

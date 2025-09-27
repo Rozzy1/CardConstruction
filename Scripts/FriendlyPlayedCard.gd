@@ -10,6 +10,7 @@ signal end_player_turn
 @onready var animation_player = $AnimationPlayer
 @onready var card_flip_timer = $CardFlipTimer
 @onready var healing_particles = $"Gpu Heal Animation"
+@onready var poison_particles = $"Gpu Poison Animation"
 @onready var friendlycardslot = $"../FriendlyCardSlot"
 var current_player_moves : Array = []
 var Card_name : String
@@ -98,9 +99,7 @@ func _on_move_4_pressed():
 
 func end_players_turn(move_pressed):
 	remove_description_panel()
-	for i in 4:
-		var move = get_node("Move"+str(i+1))
-		move.disabled = true
+	disable_player_moves()
 	end_player_turn.emit(current_player_moves[move_pressed-1])
 
 func remove_card_data():
@@ -118,3 +117,8 @@ func start_player_turn():
 	for i in 4:
 		var move = get_node("Move"+str(i+1))
 		move.disabled = false
+
+func disable_player_moves():
+	for i in 4:
+		var move = get_node("Move"+str(i+1))
+		move.disabled = true

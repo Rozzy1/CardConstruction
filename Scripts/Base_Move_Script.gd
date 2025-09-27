@@ -10,8 +10,7 @@ class_name base_move
 @export var healing_move : bool
 @export var recoil_damage : int
 @export var does_poison_damage : bool
-@export var min_poison_damage : int
-@export var max_poison_damage : int
+@export var chance_to_poison : float
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -130,12 +130,12 @@ func finish_drag():
 		card_being_dragged.in_card_slot = null
 	card_being_dragged = null
 
-func add_card_to_empty_slot(card_being_dragged, card_slot_found):
-	player_hand_reference.remove_card_from_hand(card_being_dragged)
-	card_being_dragged.position = card_slot_found.position
-	card_being_dragged.in_card_slot = card_slot_found
-	card_slot_found.is_card_in_slot = true
-	card_slot_found.card_in_slot = card_being_dragged
+func add_card_to_empty_slot(Card_being_dragged, Card_slot_found):
+	player_hand_reference.remove_card_from_hand(Card_being_dragged)
+	Card_being_dragged.position = Card_slot_found.position
+	Card_being_dragged.in_card_slot = Card_slot_found
+	Card_slot_found.is_card_in_slot = true
+	Card_slot_found.card_in_slot = Card_being_dragged
 
 func end_player_turn(_move_info):
 	can_drag_cards = false

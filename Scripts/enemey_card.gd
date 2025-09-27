@@ -2,7 +2,7 @@ extends Node2D
 signal card_died
 
 @export var card_info : base_card
-@export var poisoned : int = 0
+@export var poisoned : bool
 
 var in_card_slot : Node2D
 var hand_position

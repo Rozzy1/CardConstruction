@@ -5,7 +5,7 @@ signal card_died
 @onready var card_name_label = $CardName
 @onready var card_health_label = $CardHealth
 @export var card_info : base_card
-@export var poisoned : int = 0
+@export var poisoned : bool
 
 var in_card_slot : Node2D
 var hand_position
