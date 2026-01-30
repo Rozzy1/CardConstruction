@@ -1,18 +1,18 @@
 [gd_resource type="Resource" script_class="base_move" load_steps=2 format=3 uid="uid://6rvtbc08hwuf"]
 
-[ext_resource type="Script" path="res://Scripts/Base_Move_Script.gd" id="1_k05d0"]
+[ext_resource type="Script" uid="uid://cqxcv8s08h4k8" path="res://Scripts/base_move_script.gd" id="1_k05d0"]
 
 [resource]
 script = ExtResource("1_k05d0")
-unlocked = true
-move_cost = 60
+unlocked = false
+move_cost = 100
 Name = "Whiplash"
-Description = "Spin around in a frenzy to deal 40 damage, though hurt yourself for 15 in the process"
-damage = 40
+Description = ""
+accuracy = 1.0
+damage = 60
 damaging_move = true
 healing = 0
 healing_move = false
 recoil_damage = 15
 does_poison_damage = false
-min_poison_damage = 3
-max_poison_damage = 7
+chance_to_poison = 0.0

@@ -1,17 +1,18 @@
-[gd_scene load_steps=29 format=3 uid="uid://c38ohjln32010"]
+[gd_scene load_steps=32 format=3 uid="uid://c38ohjln32010"]
 
-[ext_resource type="Script" path="res://Scripts/CardManager.gd" id="1_8gbba"]
+[ext_resource type="Script" uid="uid://ssfp07cha5m0" path="res://Scripts/CardManager.gd" id="1_8gbba"]
 [ext_resource type="PackedScene" uid="uid://epxifcblnehi" path="res://Scenes/card_slot.tscn" id="2_jjvhh"]
-[ext_resource type="Script" path="res://Scripts/player_hand.gd" id="3_kry3j"]
+[ext_resource type="Script" uid="uid://ce18nwfkilbke" path="res://Scripts/player_hand.gd" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="4_2e8su"]
-[ext_resource type="Script" path="res://Scripts/enemey_card_slot.gd" id="4_dsx2y"]
-[ext_resource type="Script" path="res://Scripts/FriendlyPlayedCard.gd" id="4_yewx8"]
-[ext_resource type="Shader" path="res://Scenes/CardHit.gdshader" id="5_vgkyg"]
-[ext_resource type="Script" path="res://Scripts/enemey_hand.gd" id="6_6lkgs"]
-[ext_resource type="Script" path="res://Scripts/BattleManager.gd" id="7_bb5ge"]
-[ext_resource type="Script" path="res://Scripts/EnemeyPlayedCard.gd" id="7_prkjm"]
+[ext_resource type="Script" uid="uid://dkuhlkpm7a3mv" path="res://Scripts/enemey_card_slot.gd" id="4_dsx2y"]
+[ext_resource type="Script" uid="uid://jytluy56mh8c" path="res://Scripts/FriendlyPlayedCard.gd" id="4_yewx8"]
+[ext_resource type="Shader" uid="uid://y30wcrfxr75u" path="res://Scenes/CardHit.gdshader" id="5_vgkyg"]
+[ext_resource type="Script" uid="uid://cqte7da2fv6cw" path="res://Scripts/enemey_hand.gd" id="6_6lkgs"]
+[ext_resource type="Script" uid="uid://b4p3824uqxg6g" path="res://Scripts/BattleManager.gd" id="7_bb5ge"]
+[ext_resource type="Script" uid="uid://qdyo3q4jykte" path="res://Scripts/EnemeyPlayedCard.gd" id="7_prkjm"]
 [ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="7_s6wcj"]
 [ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="11_i60cs"]
+[ext_resource type="Script" uid="uid://bw2s04rfcrvfw" path="res://Scripts/enemey_decision_maker.gd" id="13_fdnlq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_osa1h"]
 shader = ExtResource("5_vgkyg")
@@ -196,9 +197,16 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pl6ly"]
 _data = {
-"RESET": SubResource("Animation_wax02"),
-"card_flip": SubResource("Animation_uy8ql")
+&"RESET": SubResource("Animation_wax02"),
+&"card_flip": SubResource("Animation_uy8ql")
 }
+
+[sub_resource type="Curve" id="Curve_fdnlq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.848684, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_jkdf5"]
+curve = SubResource("Curve_fdnlq")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_agcth"]
 particle_flag_disable_z = true
@@ -209,11 +217,12 @@ angle_max = 720.0
 inherit_velocity_ratio = 1.0
 direction = Vector3(0, -1, -1)
 spread = 5.0
-initial_velocity_min = 780.41
-initial_velocity_max = 780.41
-gravity = Vector3(0, 980, 0)
+initial_velocity_min = 800.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 1800, 0)
 scale_min = 25.0
 scale_max = 25.0
+scale_curve = SubResource("CurveTexture_jkdf5")
 color = Color(0, 1, 0, 1)
 
 [sub_resource type="Gradient" id="Gradient_4a0eq"]
@@ -224,7 +233,7 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_4a0eq")
 
 [sub_resource type="Curve" id="Curve_lrvft"]
-max_value = 200.0
+_limits = [0.0, 200.0, 0.0, 1.0]
 _data = [Vector2(0, -2.19781), 0.0, 0.0, 0, 0, Vector2(0.987952, 200), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -285,11 +294,13 @@ default_font = ExtResource("11_i60cs")
 RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
 RichTextLabel/font_sizes/normal_font_size = 96
 
-[node name="Main" type="Node2D"]
+[node name="BattleScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
-zoom = Vector2(0.85, 0.85)
+zoom = Vector2(0.6, 0.6)
 
 [node name="CardManager" type="Node2D" parent="."]
 script = ExtResource("1_8gbba")
@@ -389,7 +400,7 @@ bbcode_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FriendlyPlayedCard"]
 libraries = {
-"": SubResource("AnimationLibrary_pl6ly")
+&"": SubResource("AnimationLibrary_pl6ly")
 }
 
 [node name="CardFlipTimer" type="Timer" parent="FriendlyPlayedCard"]
@@ -400,20 +411,20 @@ position = Vector2(1.36364, -75.4546)
 scale = Vector2(0.454545, 0.454545)
 emitting = false
 amount = 48
-process_material = SubResource("ParticleProcessMaterial_agcth")
 lifetime = 2.0
 one_shot = true
 explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_agcth")
 
 [node name="Gpu Poison Animation" type="GPUParticles2D" parent="FriendlyPlayedCard"]
 position = Vector2(0, 47.2727)
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_phqea")
 lifetime = 3.0
 one_shot = true
 explosiveness = 0.8
 randomness = 0.2
+process_material = SubResource("ParticleProcessMaterial_phqea")
 
 [node name="EnemeyPlayedCard" type="Node2D" parent="."]
 material = SubResource("ShaderMaterial_y6qmt")
@@ -498,7 +509,7 @@ bbcode_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="EnemeyPlayedCard"]
 libraries = {
-"": SubResource("AnimationLibrary_pl6ly")
+&"": SubResource("AnimationLibrary_pl6ly")
 }
 
 [node name="Timer" type="Timer" parent="EnemeyPlayedCard"]
@@ -509,21 +520,21 @@ position = Vector2(1.36364, -75.4546)
 scale = Vector2(0.454545, 0.454545)
 emitting = false
 amount = 48
-process_material = SubResource("ParticleProcessMaterial_agcth")
-lifetime = 2.0
+lifetime = 1.4
 one_shot = true
 explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_agcth")
 
 [node name="Gpu Poison Animation" type="GPUParticles2D" parent="EnemeyPlayedCard"]
 z_index = 1
 position = Vector2(0, 26.8182)
 emitting = false
-amount = 32
-process_material = SubResource("ParticleProcessMaterial_phqea")
-lifetime = 3.0
+amount = 40
+lifetime = 2.0
 one_shot = true
 explosiveness = 0.8
 randomness = 0.2
+process_material = SubResource("ParticleProcessMaterial_phqea")
 
 [node name="EnemeyHand" type="Node2D" parent="."]
 script = ExtResource("6_6lkgs")
@@ -547,6 +558,9 @@ offset_right = 1523.0
 offset_bottom = 197.0
 theme = SubResource("Theme_u8xhf")
 bbcode_enabled = true
+
+[node name="EnemeyDecisionMaker" type="Node" parent="BattleManager"]
+script = ExtResource("13_fdnlq")
 
 [connection signal="mouse_entered" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_entered"]
 [connection signal="mouse_exited" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_exited"]

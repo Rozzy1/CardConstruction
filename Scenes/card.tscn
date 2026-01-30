@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://lpyqwlbsh6sh"]
 
-[ext_resource type="Script" path="res://Scripts/card.gd" id="1_3gpws"]
+[ext_resource type="Script" uid="uid://5rnnc7pfvnrn" path="res://Scripts/card.gd" id="1_3gpws"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="2_7co4k"]
 [ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="3_ik0yp"]
 

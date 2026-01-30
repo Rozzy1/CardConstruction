@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://ed3ydacjbxer"]
 
-[ext_resource type="Script" path="res://Scripts/testing.gd" id="1_suai6"]
-[ext_resource type="Script" path="res://Scripts/MoveSelectionContainer.gd" id="2_mhwfy"]
-[ext_resource type="Script" path="res://Scripts/CardBeingCreated.gd" id="3_fyfle"]
+[ext_resource type="Script" uid="uid://o0035ln33s3g" path="res://Scripts/testing.gd" id="1_suai6"]
+[ext_resource type="Script" uid="uid://cfum05d4eoe7p" path="res://Scripts/MoveSelectionContainer.gd" id="2_mhwfy"]
+[ext_resource type="Script" uid="uid://bhps2wua3v5pk" path="res://Scripts/CardBeingCreated.gd" id="3_fyfle"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="3_gs1es"]
-[ext_resource type="Script" path="res://Scripts/CreateCardButton.gd" id="5_6ad7w"]
+[ext_resource type="Script" uid="uid://dll47opwviafo" path="res://Scripts/CreateCardButton.gd" id="5_6ad7w"]
 [ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="5_f1nk7"]
 [ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="7_2kt5u"]
 
@@ -17,6 +17,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 814.0
+offset_bottom = 278.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_mhwfy")
@@ -157,6 +159,10 @@ offset_right = 1920.0
 offset_bottom = 115.0
 theme = SubResource("Theme_r4ljx")
 bbcode_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(930, 540)
+zoom = Vector2(0.6, 0.6)
 
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
 [connection signal="mouse_entered" from="CardBeingCreated/Move1" to="CardBeingCreated" method="_on_move_1_mouse_entered"]

@@ -47,4 +47,3 @@ func remove_card_from_hand(card):
 	if card in enemey_hand:
 		enemey_hand.erase(card)
 		update_hand_positions()
-

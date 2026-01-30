@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://crsxli5i2qopb"]
 
-[ext_resource type="Script" path="res://Scripts/enemey_card.gd" id="1_7q5jj"]
+[ext_resource type="Script" uid="uid://h0ibqj0bpikq" path="res://Scripts/enemey_card.gd" id="1_7q5jj"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="2_cuvoh"]
 [ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="3_o6l5f"]
 

@@ -10,6 +10,7 @@ var number_of_turns_taken : int = 0
 @onready var enemeydisplay = $"../EnemeyPlayedCard"
 @onready var playerhand = $"../PlayerHand"
 @onready var battletextdisplay = $BattleTextDisplay/RichTextLabel
+@onready var enemeydecisionmaker = $EnemeyDecisionMaker
 var enemey : base_enemey
 var card_damage_tween_time : float = 0.2
 
@@ -37,7 +38,9 @@ func play_enemey_turn():
 		enemey_hand.remove_card_from_hand(enemey_hand.enemey_hand[0])
 		enemey_hand.update_hand_positions()
 		await enemey_card_slot.card_in_play
-	current_enemey_move = decide_enemey_move()
+	var enemey_card_info : base_card = enemey_card_slot.card_in_slot.card_info
+	var player_card_info : base_card = player_card_slot.card_in_slot.card_info
+	current_enemey_move = enemeydecisionmaker.decide_on_move(enemey_card_info,player_card_info,enemey_hand.enemey_hand)
 	start_player_attack_phase(current_player_move,current_enemey_move)
 
 func place_enemey_card_in_slot(enemey_card):
@@ -46,27 +49,6 @@ func place_enemey_card_in_slot(enemey_card):
 	await tween.finished
 	card_manager.add_card_to_empty_slot(enemey_card,enemey_card_slot)
 
-func decide_enemey_move():
-	var enemey_card_info : base_card = enemey_card_slot.card_in_slot.card_info
-	var player_card_info : base_card = player_card_slot.card_in_slot.card_info
-	var highest_priority_move : base_move
-	var highest_priority_move_number : int = -99999999
-	for move in enemey_card_info.combat_actions.size():
-		var current_priority : int = 0
-		if enemey_card_info.combat_actions[move].damage >= player_card_info.current_health:
-			current_priority = current_priority + 100
-		if enemey_card_info.combat_actions[move].healing_move == true and enemey_card_info.current_health > enemey_card_info.combat_actions[move].healing:
-			current_priority = current_priority - 15
-		if enemey_card_info.combat_actions[move].healing_move == true and enemey_card_info.current_health < (float(enemey_card_info.current_health * 30))/100:
-			current_priority = current_priority + 50
-		if enemey_card_info.combat_actions[move].damaging_move == true and enemey_card_info.current_health > (float(enemey_card_info.current_health * 80))/100:
-			current_priority = current_priority + 20
-		if enemey_card_info.combat_actions[move].recoil_damage >= enemey_card_info.current_health:
-			current_priority = current_priority - 100
-		if current_priority >= highest_priority_move_number:
-			highest_priority_move_number = current_priority
-			highest_priority_move = enemey_card_info.combat_actions[move]
-	return highest_priority_move
 
 func start_player_attack_phase(player_move,enemey_move):
 	playerdiedthisturn = false
@@ -82,7 +64,7 @@ func start_player_attack_phase(player_move,enemey_move):
 			queue_battle_event("",[func():handle_card_animations(player_move,enemey_move,create_card_context(enemeydisplay,playerdisplay,player_move)),func():heal_card(player_card_slot.card_in_slot.card_info,player_move.healing)],0.0)
 			queue_battle_event("",[func():playerdisplay.update_card_visuals(player_card_slot.card_in_slot)],0.0)
 		if player_move.does_poison_damage == true:
-			did_move_fail = check_move_for_failure(player_move,player_move.chance_to_poison)
+			did_move_fail = check_move_for_failure(player_move.chance_to_poison)
 			if did_move_fail == false:
 				enemey_card_slot.card_in_slot.poisoned = true
 				queue_battle_event(enemey_card_slot.card_in_slot.card_info.card_name + "is hurt by poison!",[func():handle_card_animations(player_move,enemey_move,create_card_context(enemeydisplay,playerdisplay,player_move))],0.5)
@@ -130,11 +112,9 @@ func process_battle_events() -> void:
 	var event = battle_event_queue.pop_front()
 	# Show text first
 	await show_battle_text_message(event.text, event.delay)
-	# Run all callbacks in parallel
-	var parallel_tasks: Array = []
 	for callback in event.callbacks:
 		if callback != null:
-			parallel_tasks.append(callback.call_deferred())
+			callback.call_deferred()
 	if event.text and !event.text == "":
 		await get_tree().create_timer(1.0).timeout
 	is_processing_events = false
@@ -244,9 +224,11 @@ func create_card_context(attacking_display,caster_display,move):
 	context.move = move
 	return context
 
-func check_move_for_failure(move, move_accuracy : float = 1):
+func check_move_for_failure(move : base_move):
 	var accuracy_check : float = randf_range(0,1)
-	if accuracy_check >= move_accuracy:
+	if accuracy_check <= move.chance_to_poison:
+		return false
+	if accuracy_check >= move.accuracy:
 		queue_battle_event("But It Missed!",[],0.5)
 		return true
 	if enemeydiedthisturn == true:
@@ -294,12 +276,14 @@ func deal_with_fainted_card(card):
 	card.remove_card()
 	if enemey_hand.enemey_hand.size() > 0:
 		var next_card_sent_out = enemey_hand.enemey_hand[0]
-		queue_battle_event(enemey.enemey_name + " sent out " + next_card_sent_out.card_info.card_name + "!",[func():enemeydisplay.change_to_new_card(enemey_card_slot.card_in_slot)],1.0)
-		enemey_card_slot.card_in_slot = next_card_sent_out
-		place_enemey_card_in_slot(next_card_sent_out)
-		enemey_hand.remove_card_from_hand(next_card_sent_out)
-		enemey_hand.update_hand_positions()
+		queue_battle_event(enemey.enemey_name + " sent out " + next_card_sent_out.card_info.card_name + "!",[
+		func():enemeydisplay.change_to_new_card(enemey_card_slot.card_in_slot),
+		func():enemey_card_slot.card_in_slot = next_card_sent_out,
+		func():enemey_hand.remove_card_from_hand(next_card_sent_out),
+		func():enemey_hand.update_hand_positions(),
+		],1.0)
 		card.in_card_slot.card_in_play.emit(card)
+		place_enemey_card_in_slot(next_card_sent_out)
 	if card.in_card_slot.friendlyslot == false:
 		enemeydiedthisturn = true
 
