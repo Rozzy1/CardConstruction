@@ -4,7 +4,7 @@ var Player_Money : int = 250
 
 
 var move_folder_path = "res://Moves/"
-var enemey_folder_path = "res://Enemeys/"
+var enemey_folder_path = "res://Enemys/"
 var moves_array = []
 var enemey_array = []
 var player_hand : Array = []

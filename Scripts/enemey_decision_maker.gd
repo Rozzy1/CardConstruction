@@ -1,4 +1,7 @@
 extends Node
+
+
+
 func decide_on_move(enemey_card_info : base_card,player_card_info : base_card,avaliable_cards : Array):
 	var highest_priority_move : base_move
 	var highest_priority_move_number : int
@@ -24,4 +27,3 @@ func decide_on_move(enemey_card_info : base_card,player_card_info : base_card,av
 	
 	
 	return highest_priority_move
-	#need to send a signal since its returning to the void

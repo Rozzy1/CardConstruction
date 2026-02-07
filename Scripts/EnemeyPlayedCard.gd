@@ -9,11 +9,10 @@ signal end_player_turn
 @onready var card_health = $CardHealth
 @onready var animation_player = $AnimationPlayer
 @onready var card_flip_timer = $Timer
-@onready var healing_particles = $"Gpu Heal Animation"
-@onready var poison_particles = $"Gpu Poison Animation"
 @onready var enemey_card_slot = $"../EnemeyCardSlot"
 var current_enemey_moves : Array = []
 var Card_name : String
+var physical_card
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	card_flip_timer.wait_time = cardflippingtime
@@ -35,11 +34,12 @@ func _process(_delta):
 	pass
 
 func change_to_new_card(card):
-	if !current_enemey_moves:
-		flip_card_animation("forward")
+	flip_card_animation("forward")
 	update_card_visuals(card)
 
 func update_card_visuals(card):
+	print("ahh")
+	physical_card = card
 	Card_name = card.card_info.card_name
 	card_name.text = card.card_info.card_name
 	card_health.text = str(card.card_info.current_health) + "/" + str(card.card_info.Max_Health)

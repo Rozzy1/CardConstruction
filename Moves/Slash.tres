@@ -11,6 +11,7 @@ Description = "Slashes Your Opponent for 15 damage"
 accuracy = 1.0
 damage = 15
 damaging_move = true
+how_many_hits = 1
 healing = 0
 healing_move = false
 recoil_damage = 0

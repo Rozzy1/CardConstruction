@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="base_enemey" load_steps=9 format=3 uid="uid://4vk22ydn4guj"]
+
+[ext_resource type="Script" uid="uid://ddqd8ovi5f1jd" path="res://Scripts/base_card_script.gd" id="1_oyedf"]
+[ext_resource type="Script" uid="uid://cqxcv8s08h4k8" path="res://Scripts/base_move_script.gd" id="2_1jx08"]
+[ext_resource type="Resource" uid="uid://slo2ui6hqbyo" path="res://Moves/Healing_Prayer.tres" id="3_tni4s"]
+[ext_resource type="Resource" uid="uid://q3l340vhuxdb" path="res://Moves/Slash.tres" id="4_uqt38"]
+[ext_resource type="Script" uid="uid://cwsbooonjcq1j" path="res://Scripts/base_enemey.gd" id="5_shql0"]
+[ext_resource type="Resource" uid="uid://6rvtbc08hwuf" path="res://Moves/Whiplash.tres" id="6_8ksq2"]
+
+[sub_resource type="Resource" id="Resource_jc6xa"]
+script = ExtResource("1_oyedf")
+card_name = "TestEnemeyCard"
+Max_Health = 50
+combat_actions = Array[ExtResource("2_1jx08")]([ExtResource("3_tni4s"), ExtResource("4_uqt38"), ExtResource("4_uqt38")])
+debuffs = Array[String]([])
+
+[sub_resource type="Resource" id="Resource_jgacs"]
+script = ExtResource("1_oyedf")
+card_name = "TestEnemeyCard2"
+Max_Health = 40
+combat_actions = Array[ExtResource("2_1jx08")]([ExtResource("3_tni4s")])
+debuffs = Array[String]([])
+
+[resource]
+script = ExtResource("5_shql0")
+enemey_name = "TestEnemey"
+enemey_hand = Array[ExtResource("1_oyedf")]([SubResource("Resource_jc6xa"), SubResource("Resource_jgacs")])
+unlock_moves = Array[ExtResource("2_1jx08")]([ExtResource("6_8ksq2")])
+money_earned = 100
+max_turns = 100
+boss_enemey = false

@@ -19,9 +19,6 @@ texture = ExtResource("2_7co4k")
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_oxyyf")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-texture = ExtResource("2_7co4k")
-
 [node name="CardName" type="RichTextLabel" parent="."]
 offset_left = -85.0
 offset_top = -127.0

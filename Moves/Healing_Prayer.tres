@@ -5,14 +5,15 @@
 [resource]
 script = ExtResource("1_yevo7")
 unlocked = true
-move_cost = 0
-Name = ""
-Description = ""
+move_cost = 40
+Name = "Healing Prayer"
+Description = "Divine intervention in your favour, heals 25 Health
+"
 accuracy = 1.0
 damage = 0
 damaging_move = false
-healing = 0
-healing_move = false
+healing = 25
+healing_move = true
 recoil_damage = 0
 does_poison_damage = false
 chance_to_poison = 0.0

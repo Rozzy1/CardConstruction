@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c38ohjln32010"]
+[gd_scene load_steps=33 format=3 uid="uid://c38ohjln32010"]
 
 [ext_resource type="Script" uid="uid://ssfp07cha5m0" path="res://Scripts/CardManager.gd" id="1_8gbba"]
 [ext_resource type="PackedScene" uid="uid://epxifcblnehi" path="res://Scenes/card_slot.tscn" id="2_jjvhh"]
@@ -13,6 +13,7 @@
 [ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="7_s6wcj"]
 [ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="11_i60cs"]
 [ext_resource type="Script" uid="uid://bw2s04rfcrvfw" path="res://Scripts/enemey_decision_maker.gd" id="13_fdnlq"]
+[ext_resource type="Script" uid="uid://ckvkvom4jmq1m" path="res://Scripts/card_display_manager.gd" id="14_jkdf5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_osa1h"]
 shader = ExtResource("5_vgkyg")
@@ -201,6 +202,34 @@ _data = {
 &"card_flip": SubResource("Animation_uy8ql")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6qmt"]
+shader = ExtResource("5_vgkyg")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ojef"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+shadow_color = Color(0, 0, 0, 0.254902)
+shadow_size = 10
+shadow_offset = Vector2(-50, 10)
+anti_aliasing_size = 0.01
+
+[sub_resource type="Theme" id="Theme_8oith"]
+Panel/styles/panel = SubResource("StyleBoxFlat_5ojef")
+
+[sub_resource type="Theme" id="Theme_u8xhf"]
+default_font = ExtResource("11_i60cs")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+RichTextLabel/font_sizes/normal_font_size = 96
+
 [sub_resource type="Curve" id="Curve_fdnlq"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.848684, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -210,8 +239,9 @@ curve = SubResource("Curve_fdnlq")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_agcth"]
 particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -150, 0)
 emission_shape = 3
-emission_box_extents = Vector3(200, 1, 1)
+emission_box_extents = Vector3(200, 0, 0)
 angle_min = -720.0
 angle_max = 720.0
 inherit_velocity_ratio = 1.0
@@ -250,7 +280,7 @@ curve = SubResource("Curve_tfu2u")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_phqea"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(80, 100, 1)
+emission_box_extents = Vector3(200, 300, 1)
 direction = Vector3(0, -1, 0)
 spread = 60.0
 initial_velocity_min = 40.0
@@ -265,34 +295,6 @@ scale_curve = SubResource("CurveTexture_qesm5")
 color = Color(0.6, 0, 0.6, 1)
 color_ramp = SubResource("GradientTexture1D_qc7f6")
 turbulence_noise_strength = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6qmt"]
-shader = ExtResource("5_vgkyg")
-shader_parameter/blink_color = Color(1, 1, 1, 1)
-shader_parameter/blink_intensity = 0.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ojef"]
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-shadow_color = Color(0, 0, 0, 0.254902)
-shadow_size = 10
-shadow_offset = Vector2(-50, 10)
-anti_aliasing_size = 0.01
-
-[sub_resource type="Theme" id="Theme_8oith"]
-Panel/styles/panel = SubResource("StyleBoxFlat_5ojef")
-
-[sub_resource type="Theme" id="Theme_u8xhf"]
-default_font = ExtResource("11_i60cs")
-RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
-RichTextLabel/font_sizes/normal_font_size = 96
 
 [node name="BattleScene" type="Control"]
 layout_mode = 3
@@ -322,6 +324,7 @@ position = Vector2(360, 540)
 scale = Vector2(2.2, 2.2)
 script = ExtResource("4_yewx8")
 isfriendlyslot = true
+cardflippingtime = 0.3
 
 [node name="Sprite2D" type="Sprite2D" parent="FriendlyPlayedCard"]
 use_parent_material = true
@@ -405,32 +408,12 @@ libraries = {
 
 [node name="CardFlipTimer" type="Timer" parent="FriendlyPlayedCard"]
 
-[node name="Gpu Heal Animation" type="GPUParticles2D" parent="FriendlyPlayedCard"]
-z_index = 10
-position = Vector2(1.36364, -75.4546)
-scale = Vector2(0.454545, 0.454545)
-emitting = false
-amount = 48
-lifetime = 2.0
-one_shot = true
-explosiveness = 0.95
-process_material = SubResource("ParticleProcessMaterial_agcth")
-
-[node name="Gpu Poison Animation" type="GPUParticles2D" parent="FriendlyPlayedCard"]
-position = Vector2(0, 47.2727)
-emitting = false
-amount = 32
-lifetime = 3.0
-one_shot = true
-explosiveness = 0.8
-randomness = 0.2
-process_material = SubResource("ParticleProcessMaterial_phqea")
-
 [node name="EnemeyPlayedCard" type="Node2D" parent="."]
 material = SubResource("ShaderMaterial_y6qmt")
 position = Vector2(1560, 540)
 scale = Vector2(2.2, 2.2)
 script = ExtResource("7_prkjm")
+cardflippingtime = 0.3
 
 [node name="Sprite2D" type="Sprite2D" parent="EnemeyPlayedCard"]
 use_parent_material = true
@@ -514,28 +497,6 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="EnemeyPlayedCard"]
 
-[node name="Gpu Heal Animation" type="GPUParticles2D" parent="EnemeyPlayedCard"]
-z_index = 10
-position = Vector2(1.36364, -75.4546)
-scale = Vector2(0.454545, 0.454545)
-emitting = false
-amount = 48
-lifetime = 1.4
-one_shot = true
-explosiveness = 0.95
-process_material = SubResource("ParticleProcessMaterial_agcth")
-
-[node name="Gpu Poison Animation" type="GPUParticles2D" parent="EnemeyPlayedCard"]
-z_index = 1
-position = Vector2(0, 26.8182)
-emitting = false
-amount = 40
-lifetime = 2.0
-one_shot = true
-explosiveness = 0.8
-randomness = 0.2
-process_material = SubResource("ParticleProcessMaterial_phqea")
-
 [node name="EnemeyHand" type="Node2D" parent="."]
 script = ExtResource("6_6lkgs")
 
@@ -544,6 +505,7 @@ script = ExtResource("7_bb5ge")
 
 [node name="BattleTextDisplay" type="Panel" parent="BattleManager"]
 visible = false
+z_index = 4096
 offset_left = 148.0
 offset_top = 856.0
 offset_right = 1769.0
@@ -561,6 +523,28 @@ bbcode_enabled = true
 
 [node name="EnemeyDecisionMaker" type="Node" parent="BattleManager"]
 script = ExtResource("13_fdnlq")
+
+[node name="CardDisplayManager" type="Node" parent="BattleManager"]
+script = ExtResource("14_jkdf5")
+
+[node name="Heal Animation" type="GPUParticles2D" parent="."]
+z_index = 10
+emitting = false
+amount = 48
+lifetime = 1.4
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_agcth")
+
+[node name="Poison Animation" type="GPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 40
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.8
+randomness = 0.2
+process_material = SubResource("ParticleProcessMaterial_phqea")
 
 [connection signal="mouse_entered" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_entered"]
 [connection signal="mouse_exited" from="FriendlyPlayedCard/Move1" to="FriendlyPlayedCard" method="_on_move_1_mouse_exited"]
