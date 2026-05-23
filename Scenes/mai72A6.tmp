@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://epxifcblnehi" path="res://Scenes/card_slot.tscn" id="2_jjvhh"]
 [ext_resource type="Script" path="res://Scripts/player_hand.gd" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://ccso1wnkrgqi3" path="res://Assets/Deck.png" id="4_2e8su"]
-[ext_resource type="Script" path="res://Scripts/enemey_card_slot.gd" id="4_dsx2y"]
+[ext_resource type="Script" path="res://Scripts/enemy_card_slot.gd" id="4_dsx2y"]
 [ext_resource type="Script" path="res://Scripts/FriendlyPlayedCard.gd" id="4_yewx8"]
-[ext_resource type="Script" path="res://Scripts/enemey_hand.gd" id="6_6lkgs"]
+[ext_resource type="Script" path="res://Scripts/enemy_hand.gd" id="6_6lkgs"]
 [ext_resource type="Script" path="res://Scenes/BattleManager.gd" id="7_bb5ge"]
-[ext_resource type="Script" path="res://Scripts/EnemeyPlayedCard.gd" id="7_prkjm"]
+[ext_resource type="Script" path="res://Scripts/enemyPlayedCard.gd" id="7_prkjm"]
 
 [node name="Main" type="Node2D"]
 
@@ -26,7 +26,7 @@ friendlyslot = true
 [node name="PlayerHand" type="Node2D" parent="."]
 script = ExtResource("3_kry3j")
 
-[node name="EnemeyCardSlot" parent="." instance=ExtResource("2_jjvhh")]
+[node name="enemyCardSlot" parent="." instance=ExtResource("2_jjvhh")]
 position = Vector2(960, 409)
 script = ExtResource("4_dsx2y")
 
@@ -97,15 +97,15 @@ offset_right = 135.0
 offset_bottom = 159.0
 bbcode_enabled = true
 
-[node name="EnemeyPlayedCard" type="Node2D" parent="."]
+[node name="enemyPlayedCard" type="Node2D" parent="."]
 position = Vector2(1560, 540)
 scale = Vector2(2.2, 2.2)
 script = ExtResource("7_prkjm")
 
-[node name="Sprite2D" type="Sprite2D" parent="EnemeyPlayedCard"]
+[node name="Sprite2D" type="Sprite2D" parent="enemyPlayedCard"]
 texture = ExtResource("4_2e8su")
 
-[node name="CardName" type="RichTextLabel" parent="EnemeyPlayedCard"]
+[node name="CardName" type="RichTextLabel" parent="enemyPlayedCard"]
 offset_left = -85.0
 offset_top = -127.0
 offset_right = 90.0
@@ -115,55 +115,55 @@ size_flags_vertical = 4
 bbcode_enabled = true
 fit_content = true
 
-[node name="CardHealth" type="RichTextLabel" parent="EnemeyPlayedCard"]
+[node name="CardHealth" type="RichTextLabel" parent="enemyPlayedCard"]
 offset_left = -30.4545
 offset_top = -155.0
 offset_right = 31.5455
 offset_bottom = -132.0
 bbcode_enabled = true
 
-[node name="Move1" type="Button" parent="EnemeyPlayedCard"]
+[node name="Move1" type="Button" parent="enemyPlayedCard"]
 offset_left = -84.0
 offset_right = 84.0
 offset_bottom = 31.0
 disabled = true
 
-[node name="Move2" type="Button" parent="EnemeyPlayedCard"]
+[node name="Move2" type="Button" parent="enemyPlayedCard"]
 offset_left = -84.0
 offset_top = 32.0
 offset_right = 84.0
 offset_bottom = 63.0
 disabled = true
 
-[node name="Move3" type="Button" parent="EnemeyPlayedCard"]
+[node name="Move3" type="Button" parent="enemyPlayedCard"]
 offset_left = -84.0
 offset_top = 64.0
 offset_right = 84.0
 offset_bottom = 95.0
 disabled = true
 
-[node name="Move4" type="Button" parent="EnemeyPlayedCard"]
+[node name="Move4" type="Button" parent="enemyPlayedCard"]
 offset_left = -84.091
 offset_top = 96.0
 offset_right = 83.909
 offset_bottom = 127.0
 disabled = true
 
-[node name="DescriptionPanel" type="Panel" parent="EnemeyPlayedCard"]
+[node name="DescriptionPanel" type="Panel" parent="enemyPlayedCard"]
 visible = false
 offset_left = -226.364
 offset_top = -131.818
 offset_right = -90.3636
 offset_bottom = 129.182
 
-[node name="DescriptionText" type="RichTextLabel" parent="EnemeyPlayedCard/DescriptionPanel"]
+[node name="DescriptionText" type="RichTextLabel" parent="enemyPlayedCard/DescriptionPanel"]
 layout_mode = 0
 offset_top = 2.0
 offset_right = 135.0
 offset_bottom = 159.0
 bbcode_enabled = true
 
-[node name="EnemeyHand" type="Node2D" parent="."]
+[node name="enemyHand" type="Node2D" parent="."]
 script = ExtResource("6_6lkgs")
 
 [node name="BattleManager" type="Node" parent="."]
@@ -181,15 +181,15 @@ script = ExtResource("7_bb5ge")
 [connection signal="mouse_entered" from="FriendlyPlayedCard/Move4" to="FriendlyPlayedCard" method="_on_move_4_mouse_entered"]
 [connection signal="mouse_exited" from="FriendlyPlayedCard/Move4" to="FriendlyPlayedCard" method="_on_move_4_mouse_exited"]
 [connection signal="pressed" from="FriendlyPlayedCard/Move4" to="FriendlyPlayedCard" method="_on_move_4_pressed"]
-[connection signal="mouse_entered" from="EnemeyPlayedCard/Move1" to="EnemeyPlayedCard" method="_on_move_1_mouse_entered"]
-[connection signal="mouse_exited" from="EnemeyPlayedCard/Move1" to="EnemeyPlayedCard" method="_on_move_1_mouse_exited"]
-[connection signal="pressed" from="EnemeyPlayedCard/Move1" to="EnemeyPlayedCard" method="_on_move_1_pressed"]
-[connection signal="mouse_entered" from="EnemeyPlayedCard/Move2" to="EnemeyPlayedCard" method="_on_move_2_mouse_entered"]
-[connection signal="mouse_exited" from="EnemeyPlayedCard/Move2" to="EnemeyPlayedCard" method="_on_move_2_mouse_exited"]
-[connection signal="pressed" from="EnemeyPlayedCard/Move2" to="EnemeyPlayedCard" method="_on_move_2_pressed"]
-[connection signal="mouse_entered" from="EnemeyPlayedCard/Move3" to="EnemeyPlayedCard" method="_on_move_3_mouse_entered"]
-[connection signal="mouse_exited" from="EnemeyPlayedCard/Move3" to="EnemeyPlayedCard" method="_on_move_3_mouse_exited"]
-[connection signal="pressed" from="EnemeyPlayedCard/Move3" to="EnemeyPlayedCard" method="_on_move_3_pressed"]
-[connection signal="mouse_entered" from="EnemeyPlayedCard/Move4" to="EnemeyPlayedCard" method="_on_move_4_mouse_entered"]
-[connection signal="mouse_exited" from="EnemeyPlayedCard/Move4" to="EnemeyPlayedCard" method="_on_move_4_mouse_exited"]
-[connection signal="pressed" from="EnemeyPlayedCard/Move4" to="EnemeyPlayedCard" method="_on_move_4_pressed"]
+[connection signal="mouse_entered" from="enemyPlayedCard/Move1" to="enemyPlayedCard" method="_on_move_1_mouse_entered"]
+[connection signal="mouse_exited" from="enemyPlayedCard/Move1" to="enemyPlayedCard" method="_on_move_1_mouse_exited"]
+[connection signal="pressed" from="enemyPlayedCard/Move1" to="enemyPlayedCard" method="_on_move_1_pressed"]
+[connection signal="mouse_entered" from="enemyPlayedCard/Move2" to="enemyPlayedCard" method="_on_move_2_mouse_entered"]
+[connection signal="mouse_exited" from="enemyPlayedCard/Move2" to="enemyPlayedCard" method="_on_move_2_mouse_exited"]
+[connection signal="pressed" from="enemyPlayedCard/Move2" to="enemyPlayedCard" method="_on_move_2_pressed"]
+[connection signal="mouse_entered" from="enemyPlayedCard/Move3" to="enemyPlayedCard" method="_on_move_3_mouse_entered"]
+[connection signal="mouse_exited" from="enemyPlayedCard/Move3" to="enemyPlayedCard" method="_on_move_3_mouse_exited"]
+[connection signal="pressed" from="enemyPlayedCard/Move3" to="enemyPlayedCard" method="_on_move_3_pressed"]
+[connection signal="mouse_entered" from="enemyPlayedCard/Move4" to="enemyPlayedCard" method="_on_move_4_mouse_entered"]
+[connection signal="mouse_exited" from="enemyPlayedCard/Move4" to="enemyPlayedCard" method="_on_move_4_mouse_exited"]
+[connection signal="pressed" from="enemyPlayedCard/Move4" to="enemyPlayedCard" method="_on_move_4_pressed"]

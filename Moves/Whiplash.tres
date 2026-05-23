@@ -1,18 +1,13 @@
 [gd_resource type="Resource" script_class="base_move" load_steps=2 format=3 uid="uid://6rvtbc08hwuf"]
 
-[ext_resource type="Script" uid="uid://cqxcv8s08h4k8" path="res://Scripts/base_move_script.gd" id="1_k05d0"]
+[ext_resource type="Script" uid="uid://cqxcv8s08h4k8" path="res://Scripts/Base_Move_Script.gd" id="1_k05d0"]
 
 [resource]
 script = ExtResource("1_k05d0")
 unlocked = true
 move_cost = 100
 Name = "Whiplash"
-Description = ""
-accuracy = 1.0
+Description = "Spin around and strike your opponent, dealing self damage as consequence"
 damage = 60
 damaging_move = true
-healing = 0
-healing_move = false
 recoil_damage = 15
-does_poison_damage = false
-chance_to_poison = 0.0

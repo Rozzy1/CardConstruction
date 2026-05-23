@@ -37,7 +37,6 @@ func regular_attack_movement_tween(card_display : Node2D, movement_amount : int)
 	pass
 
 func apply_card_particle_effects(card_display: Node2D, particle_effect: String) -> void:
-	print(card_display.Card_name)
 	var emitter: GPUParticles2D = null
 	match particle_effect:
 		"healing": emitter = healing_particles

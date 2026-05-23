@@ -13,6 +13,7 @@ func _process(_delta):
 	pass
 
 func check_if_valid(card_cost,card_moves):
+	print("cardcost",card_cost)
 	if card_cost > Globals.Player_Money:
 		error_text.text = "[color=red]Insufficent Funds"
 		disabled = true

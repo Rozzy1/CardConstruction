@@ -24,8 +24,6 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	Card_Total_Cost = cost_of_health + cost_of_moves
 
 func selected_moves_updated(selected_moves):
 	for i in 4:
@@ -38,6 +36,7 @@ func selected_moves_updated(selected_moves):
 			move.disabled = true
 			move.text = ""
 	cost_of_moves = calculate_move_costs()
+	Card_Total_Cost = cost_of_health + cost_of_moves
 	card_updated.emit(Card_Total_Cost,selected_moves)
 
 func _on_move_1_mouse_entered():
@@ -77,7 +76,7 @@ func display_description_panel(move_hovered):
 func hide_description_panel():
 	descriptionpanel.visible = false
 	descriptiontext.visible_ratio = 0
-
+	
 
 func _on_text_edit_text_changed(_new_text):
 	if textedit.text.length() > Max_Name_Size:
@@ -89,9 +88,11 @@ func _on_text_edit_text_changed(_new_text):
 
 
 func _on_h_slider_value_changed(value):
+	print("slider",value)
 	card_health = value
 	cardhealthlabel.text = str(value) + "/" + str(value)
 	cost_of_health = calculate_cost_of_health(value)
+	Card_Total_Cost = cost_of_health + cost_of_moves
 	card_updated.emit(Card_Total_Cost,moves_array)
 
 func remove_move_from_array(movepressed):

@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmb3bw7hj7yee"]
+
+[ext_resource type="Script" uid="uid://cm8ttqqgcemhd" path="res://Scenes/create_card_titlescreen.gd" id="1_que75"]
+[ext_resource type="Script" uid="uid://bja4ndc871vcj" path="res://Scenes/fight!_titlescreen.gd" id="2_pwk6s"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 378.0
+offset_top = 77.0
+offset_right = 755.0
+offset_bottom = 117.0
+scale = Vector2(4, 4)
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]CardBuilder![/wave]"
+tab_size = 5
+
+[node name="CreateCard" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -32.0
+offset_right = -2.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Create a Card!"
+script = ExtResource("1_que75")
+
+[node name="Fight!" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -32.0
+offset_right = 157.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fight!
+"
+autowrap_mode = 2
+script = ExtResource("2_pwk6s")
+
+[node name="ResetParty" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[connection signal="pressed" from="CreateCard" to="CreateCard" method="_on_pressed"]
+[connection signal="pressed" from="Fight!" to="Fight!" method="_on_pressed"]

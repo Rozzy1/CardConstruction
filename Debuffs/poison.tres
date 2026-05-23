@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="debuff" load_steps=2 format=3 uid="uid://b75wc4ef2yrqk"]
+
+[ext_resource type="Script" uid="uid://coxhc16l0of3k" path="res://Scripts/poison.gd" id="1_m80g2"]
+
+[resource]
+script = ExtResource("1_m80g2")
+metadata/_custom_type_script = "uid://coxhc16l0of3k"

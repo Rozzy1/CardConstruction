@@ -276,6 +276,7 @@ cache/0/128/0/kerning_overrides/48/0 = Vector2(0, 0)
 
 [sub_resource type="Theme" id="Theme_u7iag"]
 default_font = SubResource("FontFile_8fyjg")
+default_font_size = 40
 
 [node name="MoveSelectButton" type="Button"]
 offset_right = 193.0

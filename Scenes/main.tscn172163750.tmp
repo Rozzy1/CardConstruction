@@ -9,7 +9,7 @@
 [ext_resource type="Shader" uid="uid://y30wcrfxr75u" path="res://Scenes/CardHit.gdshader" id="5_vgkyg"]
 [ext_resource type="Script" uid="uid://cqte7da2fv6cw" path="res://Scripts/enemy_hand.gd" id="6_6lkgs"]
 [ext_resource type="Script" uid="uid://b4p3824uqxg6g" path="res://Scripts/BattleManager.gd" id="7_bb5ge"]
-[ext_resource type="Script" uid="uid://qdyo3q4jykte" path="res://Scripts/EnemyPlayedCard.gd" id="7_prkjm"]
+[ext_resource type="Script" uid="uid://qdyo3q4jykte" path="res://Scripts/enemyPlayedCard.gd" id="7_prkjm"]
 [ext_resource type="Theme" uid="uid://j2pw8ihd8q83" path="res://font.tres" id="7_s6wcj"]
 [ext_resource type="FontFile" uid="uid://vhffeju7wumq" path="res://Micro5-Regular.ttf" id="11_i60cs"]
 [ext_resource type="Script" uid="uid://bw2s04rfcrvfw" path="res://Scripts/enemy_decision_maker.gd" id="13_fdnlq"]

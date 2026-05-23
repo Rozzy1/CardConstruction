@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="CardBuilder"
-run/main_scene="res://Scenes/card_builder_scene#.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://cmb3bw7hj7yee"
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://Assets/icon.svg"
 
 [autoload]

@@ -9,8 +9,8 @@ signal end_player_turn
 @onready var card_health = $CardHealth
 @onready var animation_player = $AnimationPlayer
 @onready var card_flip_timer = $Timer
-@onready var enemey_card_slot = $"../EnemeyCardSlot"
-var current_enemey_moves : Array = []
+@onready var enemy_card_slot = $"../enemyCardSlot"
+var current_enemy_moves : Array = []
 var Card_name : String
 var physical_card
 # Called when the node enters the scene tree for the first time.
@@ -18,8 +18,8 @@ func _ready():
 	card_flip_timer.wait_time = cardflippingtime
 	animation_player.play("card_flip")
 	if isfriendlyslot == false:
-		enemey_card_slot.card_in_play.connect(change_to_new_card)
-		enemey_card_slot.card_not_in_play.connect(remove_card_data)
+		enemy_card_slot.card_in_play.connect(change_to_new_card)
+		enemy_card_slot.card_not_in_play.connect(remove_card_data)
 	for i in 4:
 		var move = get_node("Move"+str(i+1))
 		move.add_theme_stylebox_override("focus", StyleBoxEmpty.new()) #gets rid of the button outline when you click on a button
@@ -34,21 +34,23 @@ func _process(_delta):
 	pass
 
 func change_to_new_card(card):
-	flip_card_animation("forward")
 	update_card_visuals(card)
+	flip_card_animation("forward")
 
 func update_card_visuals(card):
-	print("ahh")
+	if !card:
+		print("card not found")
+		return
 	physical_card = card
 	Card_name = card.card_info.card_name
 	card_name.text = card.card_info.card_name
 	card_health.text = str(card.card_info.current_health) + "/" + str(card.card_info.Max_Health)
 	#Loops through the cards combatactions and then sets the internal moveset along with the card names
 	for i in card.card_info.combat_actions.size():
-		current_enemey_moves.append(card.card_info.combat_actions[i])
+		current_enemy_moves.append(card.card_info.combat_actions[i])
 		var move = get_node("Move"+str(i+1))
 		if card.card_info.combat_actions[i]:
-			move.text = current_enemey_moves[i].Name
+			move.text = current_enemy_moves[i].Name
 		else:
 			move.text = ""
 
@@ -80,25 +82,25 @@ func remove_description_panel():
 	$DescriptionPanel.visible = false
 
 func display_description_panel(movehovered):
-	if current_enemey_moves.size() > movehovered:
+	if current_enemy_moves.size() > movehovered:
 		descriptionpanel.visible = true
-		descriptiontext.text = current_enemey_moves[movehovered].Description
+		descriptiontext.text = current_enemy_moves[movehovered].Description
 		var descriptiontext_tween = get_tree().create_tween()
 		descriptiontext.visible_ratio = 0
 		descriptiontext_tween.tween_property(descriptiontext,"visible_ratio",1,0.5)
 
 
 func _on_move_1_pressed():
-	if current_enemey_moves.size() >= 1:
+	if current_enemy_moves.size() >= 1:
 		end_players_turn(1)
 func _on_move_2_pressed():
-	if current_enemey_moves.size() >= 2:
+	if current_enemy_moves.size() >= 2:
 		end_players_turn(2)
 func _on_move_3_pressed():
-	if current_enemey_moves.size() >= 3:
+	if current_enemy_moves.size() >= 3:
 		end_players_turn(3)
 func _on_move_4_pressed():
-	if current_enemey_moves.size() >= 4:
+	if current_enemy_moves.size() >= 4:
 		end_players_turn(4)
 
 func end_players_turn(move_pressed):
@@ -106,13 +108,13 @@ func end_players_turn(move_pressed):
 	for i in 4:
 		var move = get_node("Move"+str(i+1))
 		move.disabled = true
-	end_player_turn.emit(current_enemey_moves[move_pressed-1])
+	end_player_turn.emit(current_enemy_moves[move_pressed-1])
 
 func remove_card_data():
-	flip_card_animation("backward")
+	flip_card_animation("forward")
 	card_flip_timer.start()
 	await card_flip_timer.timeout
-	current_enemey_moves.clear()
+	current_enemy_moves.clear()
 	card_name.text = ""
 	card_health.text = ""
 	for i in 4:

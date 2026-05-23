@@ -1,7 +1,6 @@
 extends Node
 const Damage_Move_Degrees : int = 15
 const Damage_Move_Movement : int = 100
-const Base_Status_Time : int = 3
 
 var current_player_move : base_move
 var current_enemy_move : base_move
@@ -57,7 +56,6 @@ func start_battle_turn(enemy_card_info,player_card_info):
 func start_enemy_phase(enemy_card_info,player_card_info):
 	resolve_attack_phase(enemydisplay,playerdisplay,enemy_card_info,player_card_info,current_enemy_move,false,func():queue_battle_event("",[func(): $BattleTextDisplay.visible = false,
 	func(): start_player_turn()],0.0))
-	process_battle_events()
 	
 
 func place_enemy_card_in_slot(enemy_card):
@@ -66,7 +64,7 @@ func place_enemy_card_in_slot(enemy_card):
 	await tween.finished
 	card_manager.add_card_to_empty_slot(enemy_card,enemy_card_slot)
 
-func resolve_attack_phase(attacker_display : Node2D,defender_display : Node2D,attacking_card : base_card,defending_card : base_card,move : base_move,_is_player_attacking : bool,on_phase_complete : Callable):
+func resolve_attack_phase(attacker_display : Node2D,defender_display : Node2D,attacking_card : base_card,defending_card : base_card,move : base_move,is_player_attacking : bool,on_phase_complete : Callable):
 	queue_battle_event("",[func():$BattleTextDisplay.visible = true],0.0)
 	queue_battle_event(str(attacking_card.card_name) + " Used " + str(move.Name),[],1.0)
 	if check_move_for_failure(move) == true:
@@ -74,32 +72,23 @@ func resolve_attack_phase(attacker_display : Node2D,defender_display : Node2D,at
 		queue_battle_event("", [on_phase_complete], 0.0)
 	if move.damaging_move == true:
 		#Add multi-hit later
-		for i in move.how_many_hits:
-			handle_card_animations("damage_move",defender_display)
-			if queue_damage_event(defender_display, defending_card, move.damage, "", 1.0) == false:
-				on_phase_complete = func():halt_battle_events()
-			queue_battle_event("",[func():defender_display.physical_card.update_card_visuals(),func(): defender_display.update_card_visuals(defender_display.physical_card)],0.0)
+		handle_card_animations("damage_move",defender_display)
+		if queue_damage_event(defender_display, defending_card, move.damage, "", 0.0) == false:
+			on_phase_complete = func():halt_battle_events()
+		queue_battle_event("",[func():defender_display.physical_card.update_card_visuals(),func(): defender_display.update_card_visuals(defender_display.physical_card)],0.0)
 	if move.healing_move == true:
-		for i in move.how_many_hits:
-			handle_card_animations("healing_move",attacker_display)
-			queue_battle_event("",[func():heal_card(attacking_card,move.healing)],0.0)
-			queue_battle_event("",[func():attacker_display.physical_card.update_card_visuals(),func(): attacker_display.update_card_visuals(attacker_display.physical_card)],0.0)
+		handle_card_animations("healing_move",attacker_display)
+		queue_battle_event("",[func():heal_card(attacking_card,move.healing)],0.0)
+		queue_battle_event("",[func():attacker_display.physical_card.update_card_visuals(),func(): attacker_display.update_card_visuals(attacker_display.physical_card)],0.0)
 	if move.recoil_damage > 0:
 		handle_card_animations("damage_move",attacker_display)
 		queue_damage_event(attacker_display, attacking_card, move.recoil_damage, "recoil", 1.0)
 		queue_battle_event("",[func():attacker_display.physical_card.update_card_visuals(),func(): attacker_display.update_card_visuals(attacker_display.physical_card)],0.0)
 	if move.does_poison_damage and status_effect_roll_failure(move.chance_to_poison) == false:
-		if defending_card.debuffs.find("poison") == -1:
-			queue_battle_event(str(defending_card.card_name) + " Was poisoned!",[],1.0)
-			defending_card.add_to_list(debuff.new("poison",Base_Status_Time,move.poison_strength))
-			handle_card_animations("poisoned",defender_display)
-	if attacking_card.debuffs:
-		for i in attacking_card.debuffs.size():
-			@warning_ignore("narrowing_conversion")
-			queue_damage_event(attacker_display,attacking_card,float(attacking_card.Max_Health)*attacking_card.debuffs[i].percent_damage,"poison",1.0)
-			print(attacking_card.debuffs[i].strength)
-			queue_battle_event("",[func():attacker_display.physical_card.update_card_visuals(),func(): attacker_display.update_card_visuals(attacker_display.physical_card)],0.0)
-			queue_battle_event("",[func():carddisplaymanager.apply_card_particle_effects(attacker_display,"poison")],0.0)
+		queue_battle_event(str(defending_card.card_name) + " Was poisoned!",[],1.0)
+		defending_card.debuffs.append({name : "poison", time : })
+		handle_card_animations("poisoned",defender_display)
+	
 	on_phase_complete.call()
 ## only called when player knocks out enemy
 func halt_battle_events():
@@ -116,8 +105,6 @@ func process_battle_events() -> void:
 	var event = battle_event_queue.pop_front()
 	# Show text first
 	await show_battle_text_message(event.text, event.delay)
-	if event.text == "":
-		await get_tree().create_timer(event.delay).timeout
 	for callback in event.callbacks:
 		if callback != null:
 			callback.call_deferred()
@@ -152,11 +139,10 @@ func player_lost():
 	get_tree().quit()
 
 func player_won():
-	Globals.Player_Money += calculate_money_earnings()
 	queue_battle_event("",[func():$BattleTextDisplay.visible = true],0.0)
-	queue_battle_event("You won!" + " You earned " + str(calculate_money_earnings()) + "$!",[],1.5)
-	queue_battle_event("",[func():get_tree().change_scene_to_file("res://Scenes/card_builder_scene.tscn")],0.0)
-	halt_battle_events()
+	queue_battle_event("You won!" + " You earned " + str(calculate_money_earnings()) + "$!",[],0.5)
+	queue_battle_event("",[func():$BattleTextDisplay.visible = false],0.0)
+	process_battle_events()
 
 
 func calculate_money_earnings():
@@ -177,7 +163,10 @@ func show_battle_text_message(text : String, duration : float):
 	return
 
 
-
+func wait_for_key_press(action_name: String) -> void:
+	while not Input.is_action_just_pressed(action_name):
+		await get_tree().process_frame
+	await get_tree().process_frame
 
 func handle_card_animations(animation_needed : String,card_display : Node2D):
 	match animation_needed:
@@ -233,19 +222,16 @@ func queue_damage_event(target_display : Node2D,target_card_info : base_card,dam
 			damage_text = target_display.Card_name + " took damage!"
 	
 	var predicted_health = target_card_info.current_health - damage_amount
-	queue_battle_event(damage_text, [func():target_card_info.current_health -= damage_amount
-	,func():if target_card_info.current_health < 0:
-		target_card_info.current_health = 0], delay)
+	queue_battle_event(damage_text, [func():target_card_info.current_health -= damage_amount], delay)
 	if predicted_health <= 0:
-		queue_battle_event("",[func():target_display.update_card_visuals(target_display.physical_card)],0.0)
-		handle_fainting(target_display.Card_name,target_display.physical_card)
+		handle_fainting(target_card_info,target_display.Card_name,target_display.physical_card)
 		return false
 	
 	return true
 
 
-func handle_fainting(display_name: String,physical_card : Node2D):
-	queue_battle_event(display_name + " Fainted!",[],1.5)
+func handle_fainting(card_info, display_name: String,physical_card : Node2D):
+	queue_battle_event(display_name + " Fainted!",[],0.5)
 	deal_with_fainted_card(physical_card)
 
 func deal_with_fainted_card(physical_card):
@@ -253,16 +239,13 @@ func deal_with_fainted_card(physical_card):
 		playerdiedthisturn = true
 	if enemy_hand.enemy_hand.size() > 0:
 		var next_card_sent_out = enemy_hand.enemy_hand[0]
-		queue_battle_event("",[
+		queue_battle_event("",[func():enemydisplay.update_card_visuals(next_card_sent_out),
 		func():enemy_card_slot.card_in_slot = next_card_sent_out,
 		func():enemy_hand.remove_card_from_hand(next_card_sent_out),
 		func():enemy_hand.update_hand_positions(),
 		func():physical_card.remove_card(),
 		func():place_enemy_card_in_slot(next_card_sent_out),],0.0)
-		queue_battle_event("",[func():enemydisplay.change_to_new_card(next_card_sent_out)],0.0)
-		queue_battle_event(enemy.enemy_name + " sent out " + next_card_sent_out.card_info.card_name + "!",[],1)
-	else:
-		player_won()
+		queue_battle_event(enemy.enemy_name + " sent out " + next_card_sent_out.card_info.card_name + "!",[],1.0)
 	if physical_card.in_card_slot.friendlyslot == false:
 		enemydiedthisturn = true
 

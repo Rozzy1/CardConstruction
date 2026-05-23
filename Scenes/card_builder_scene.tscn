@@ -29,7 +29,7 @@ offset_left = 685.0
 offset_top = 45.0
 offset_right = 920.0
 offset_bottom = 215.0
-text = "change to battle scene"
+text = "<- Back"
 script = ExtResource("1_suai6")
 
 [node name="MoveSelectionContainer" type="VBoxContainer" parent="."]
@@ -178,6 +178,5 @@ zoom = Vector2(0.6, 0.6)
 [connection signal="mouse_exited" from="CardBeingCreated/Move4" to="CardBeingCreated" method="_on_move_4_mouse_exited"]
 [connection signal="pressed" from="CardBeingCreated/Move4" to="CardBeingCreated" method="_on_move_4_pressed"]
 [connection signal="text_changed" from="CardBeingCreated/TextEdit" to="CardBeingCreated" method="_on_text_edit_text_changed"]
-[connection signal="drag_ended" from="CardBeingCreated/HSlider" to="CardBeingCreated" method="_on_h_slider_drag_ended"]
 [connection signal="value_changed" from="CardBeingCreated/HSlider" to="CardBeingCreated" method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="CreateCardButton" to="CreateCardButton" method="_on_pressed"]
